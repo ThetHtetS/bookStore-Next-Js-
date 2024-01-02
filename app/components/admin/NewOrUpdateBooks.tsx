@@ -3,7 +3,7 @@ import Book from '@/lib/redux/slices/bookSlice/book';
 import Category from '@/lib/redux/slices/categorySlice/category';
 import { Dialog, Transition } from '@headlessui/react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Fragment, useRef } from 'react'
 export default function NewOrUpdateBooks(props:{
     categories:Category[],
@@ -12,7 +12,7 @@ export default function NewOrUpdateBooks(props:{
    
 })
 {   
-    
+  
     let {categories ,open, setOpen, bookToEdit,setBookToEdit,saveOrUpdateBook}= props;
     const cancelButtonRef = useRef(null)
   return (
@@ -31,7 +31,7 @@ export default function NewOrUpdateBooks(props:{
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
   
-          <div className="fixed inset-0 z-10 w-screen overflow-y-auto ">
+          <div className="fixed inset-0 pb-28 w-screen overflow-y-auto ">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <Transition.Child
                 as={Fragment}
@@ -52,8 +52,9 @@ export default function NewOrUpdateBooks(props:{
                         </Dialog.Title>   
                           <Formik
   
-                           initialValues={{ title: bookToEdit?bookToEdit.title:'',category: bookToEdit?bookToEdit.category:'',
-                          price: bookToEdit?bookToEdit.price:'', qty: bookToEdit?bookToEdit.qty:'' }}
+                           initialValues={{ title: bookToEdit?bookToEdit.title:'',
+                           category: bookToEdit?bookToEdit.category: categories[0]._id,
+                          price: bookToEdit?bookToEdit.price:'', qty: bookToEdit?bookToEdit.qty: '' }}
   
                                 //  validate={values => {
                           
@@ -79,7 +80,7 @@ export default function NewOrUpdateBooks(props:{
   
                                 onSubmit={(values)=>{
                                   let data= {
-                                    ...values, category: parseInt(values.category)                               
+                                    ...values                               
                                   }
                                   console.log(data);
                                   

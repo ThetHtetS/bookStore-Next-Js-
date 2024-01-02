@@ -1,5 +1,5 @@
 /* Instruments */
-import { counterSlice} from './slices'
+import { authSlice, counterSlice, reviewSlice} from './slices'
 import {categorySlice} from './slices'
 import { bookSlice } from './slices/bookSlice/bookSlice'
 import { cartSlice } from './slices/cartSlice/cartSlice'
@@ -12,5 +12,7 @@ export const reducer = {
   cart: cartSlice.reducer,
   order: orderSlice.reducer,
   order_item: order_itemSlice.reducer,
+  user: authSlice.reducer,
+  review: reviewSlice.reducer,
   
 }

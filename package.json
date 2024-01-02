@@ -9,9 +9,11 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@reduxjs/toolkit": "1.9.5",
+    "axios": "^1.4.0",
     "formik": "^2.4.5",
     "next": "latest",
     "react": "18.2.0",
+    "react-datepicker": "^4.25.0",
     "react-dom": "18.2.0",
     "react-redux": "8.1.0"
   },

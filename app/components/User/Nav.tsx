@@ -4,15 +4,15 @@ import Link from 'next/link'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import SearchInput from './SearchInput'
-import { selectCarts, useSelector } from '@/lib/redux'
+import { selectCarts, useDispatch, useSelector } from '@/lib/redux'
+import { getBookByTitle } from '@/lib/redux/slices/bookSlice/thunks'
 export default function Nav() {
     const pathname = usePathname()
     let cart = useSelector(selectCarts)
-    
     let [search,setSearch]= useState("") ;
     let[active, setActive]=useState(false);
     let[menuActive, setMenuActive]=useState(false);
-
+    let dispatch = useDispatch();
     let  user  =  "hello"
     let isDark = false;
     
@@ -22,6 +22,9 @@ export default function Nav() {
     let SearchHandle =()=>{
           setActive(!active)
     } 
+    let SearchBook =(title:string)=>{
+        dispatch(getBookByTitle(title))
+    }
 
 
   return (
@@ -125,7 +128,7 @@ export default function Nav() {
                     <span className=" text-primary">About</span>
                 </Link>     
             
-                <Link href='/about' className={`flex items-center ${pathname === '/category' ? 'border-indigo-600 text-indigo-600' : ''}`}>      
+                <Link href='/admin/category' className={`flex items-center ${pathname === '/category' ? 'border-indigo-600 text-indigo-600' : ''}`}>      
                     <span className="text-primary">Category</span>
                 </Link>       
             </div>  
@@ -179,11 +182,11 @@ export default function Nav() {
             <div>
                 category
             </div>      
-            </div>
+            </div> 
          </div>
     </nav>
    <div className={`${active? "": "hidden"}`}>
-     <SearchInput SearchHandle={SearchHandle}/> 
+     <SearchInput SearchHandle={SearchHandle} searchBook={SearchBook}/> 
    </div>
     
     </>

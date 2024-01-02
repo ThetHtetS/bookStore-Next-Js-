@@ -1,11 +1,47 @@
 "use client"
- import React from 'react'
- import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React from 'react'
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Link from 'next/link';
+import { loginAsync, selectAuth, useDispatch, useSelector } from '@/lib/redux';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+//import { Router } from 'next/router';
 
  export default function Login() {
+  
+  let token= window.localStorage.getItem("token");
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirectUrl');
+  const router = useRouter();
+  let dispatch= useDispatch()
+ 
+  if(token){
+    router.push('/account')
+  }
+
+   let login =(user:any)=>{
+    dispatch(loginAsync(user)).unwrap()
+    .then(response => {
+     
+            if(redirectUrl)
+            {
+                router.push(redirectUrl);
+            }
+            else
+            {
+            router.push('/');
+            }
+        },
+         err=> {
+             console.log('Error case ', err);
+             alert(err.message)
+            // MySwal.fire('Invalid username or password');
+           // resetForm();
+         });
+   }
+
    return (
-     <div className='px-80 pt-12'>
+     <div className='md:px-80 pt-12'>
         <Formik
 
             initialValues={{ email: '', password: '' }}
@@ -34,13 +70,7 @@ import Link from 'next/link';
 
             onSubmit={(values, { setSubmitting }) => {
 
-              setTimeout(() => {
-
-                alert(JSON.stringify(values, null, 2));
-
-                setSubmitting(false);
-
-              }, 400);
+            login(values)
 
             }}
 
@@ -80,7 +110,8 @@ import Link from 'next/link';
            
           <div className="text-center">
        
-          <button className='border bg-black text-white rounded-sm px-3 py-1' type="submit" disabled={isSubmitting}>
+          <button className='border bg-black text-white rounded-sm px-3 py-1'
+           type="submit" >
 
               Sign In
 

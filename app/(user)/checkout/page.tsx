@@ -2,17 +2,28 @@
 import { cartSlice, orderSlice, order_itemSlice, selectBooks, selectCarts, useDispatch, useSelector } from '@/lib/redux'
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { addNewOrder } from '@/lib/redux/slices/orderSlice/thunks';
+import Order from '@/lib/redux/slices/orderSlice/order';
 export default function Page() {
     let cart =useSelector(selectCarts);
     let books = useSelector(selectBooks);
     let dispatch = useDispatch()
     let subtotal=0;
-    let addOrder =(data)=>{
-     dispatch(orderSlice.actions.addOrder(data))
-     cart.map(item=>{
-      let data= {...item,order:4}
-      dispatch(order_itemSlice.actions.addOrder_item(data))
-     })
+    
+    const orde= cart.map(item=> {
+      return {book: item.book, qty: item.qty}
+    })
+ 
+    let addOrder =(data:Order)=>{
+     let uid= localStorage.getItem("Uid");
+      let order = {...data ,status: 0, uid: uid, orderItem: orde}
+     dispatch(addNewOrder(order))
+     console.log("order", order);
+     
+    //  cart.map(item=>{
+    //   let data= {...item,order:4}
+    //   dispatch(order_itemSlice.actions.addOrder_item(data))
+    //  })
      dispatch(cartSlice.actions.deleteAllCart())
     }
 

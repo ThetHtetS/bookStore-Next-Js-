@@ -2,23 +2,26 @@ import Book from '@/lib/redux/slices/bookSlice/book'
 import Category from '@/lib/redux/slices/categorySlice/category'
 import React from 'react'
 
-export default function BooksList(props:{books: Book[], categories: Category[] ,open:boolean ,setOpen: (open:boolean)=>void ,
+export default function BooksList(props:{books: Book[] ,open:boolean ,setOpen: (open:boolean)=>void ,
   deleteHandler: (item:Book)=>void,
   btnEditHandler:()=>void
 }) {
-    let {books,categories, setOpen, open, deleteHandler,btnEditHandler}=props;
+    let {books, setOpen, open, deleteHandler,btnEditHandler}=props;
     return (
-    <div className='grid md:grid-cols-2 lg:grid-cols-4 mx-auto gap-12'>
-    <div onClick={()=>{setOpen(!open)}} className=" border text-center py-32">Add New Book</div>
+    <div className='grid grid-cols-2 lg:grid-cols-4 mx-auto gap-12'>
+    <div onClick={()=>{setOpen(!open)}} className=" border text-center md:py-44 w-25 md:w-auto pt-24">Add New Book</div>
       {books.map(item=> {
-        var cat= categories.filter(cat=> cat._id== item.category)
+        // var cat= categories.filter(cat=> cat._id== item.category)
         return(
-          <div className=" bg-white h-48 group">
-            <img src='https://novelbookstore.co/cdn/shop/products/IMG_94153_900x.jpg?v=1651213560'/>
+          <div className="bg-white h-48 group mb-28 w-28 md:w-auto">
+            <img src='https://novelbookstore.co/cdn/shop/products/IMG_94153_900x.jpg?v=1651213560' className='w-40 '/>
             <div className="mt-3">{item.title}</div>
             <div>{item.price} <span className='text-bold'>MMK</span></div>
             <div className=""> {item.qty} stock</div>
-          <div className='flex justify-between'>{cat.map(c=>(<div>{c.name}</div>))}  
+          <div className='flex justify-between'>
+            {item.category.name}
+            {/* {cat.map(c=>(<div>{c.name}
+            </div>))}   */}
            <div className='hidden group-hover:flex gap-2 items-center'>
                     {/* edit button */}
                   <button onClick={e=>{btnEditHandler(item);

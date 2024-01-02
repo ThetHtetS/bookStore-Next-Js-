@@ -1,19 +1,32 @@
 "use client"
 import { cartSlice, selectBooks, selectCarts, useDispatch, useSelector } from '@/lib/redux'
+import { loadAllBook } from '@/lib/redux/slices/bookSlice/thunks';
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function Cart() {
+  
+  useEffect(()=>{
+   
+    dispatch(loadAllBook())
+        .unwrap()
+        .then(data=>console.log('Response from thunk ',data));
+
+},[])
+
   let books = useSelector(selectBooks)
   let cart = useSelector(selectCarts);
   let dispatch= useDispatch();
   let subtotal=0;
- 
+   console.log(books);
+   console.log(cart);
+   
  
   let increaseQty =(data)=>{
     let qtynew = data.qty+1
      let newData= {_id: data._id , book: data.book, qty: qtynew}
-    
+     console.log(newData);
+     
      dispatch(cartSlice.actions.updateCart(newData))
   }
 
@@ -26,14 +39,14 @@ export default function Cart() {
       qtynew= data.qty-1
     }
      let newData= {_id: data._id , book: data.book, qty: qtynew}
+     console.log(newData);
+     
      dispatch(cartSlice.actions.updateCart(newData))
   }
 
   let deleteCart=(data)=>{
    dispatch(cartSlice.actions.deleteCart(data))
   }
-  
-
   
   
   return (
@@ -55,8 +68,10 @@ export default function Cart() {
           </thead>
           {cart.map((item)=>{
             let book= books.filter(book=> book._id == item.book )
-             subtotal += book[0].price* item.qty;
+            console.log(book);
             
+             subtotal += book[0].price* item.qty;
+              
             return(
             
             <tbody className=''>

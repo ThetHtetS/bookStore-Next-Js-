@@ -1,21 +1,40 @@
 "use client"
-import { selectBooks, selectOrder_items, selectOrders, useSelector } from '@/lib/redux'
+import { selectBooks, selectOrder_items, selectOrders, useDispatch, useSelector } from '@/lib/redux'
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getOrderByDateRange, loadAllOrder, getOrderByStatus } from "@/lib/redux/slices/orderSlice/thunks";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function page() {
-  let [option,setOption]=useState("");
-  let [search,setSearch]=useState("")
-    let orders = useSelector(selectOrders);
-    let order_item = useSelector(selectOrder_items);
-    let books = useSelector(selectBooks);
-    console.log( "order",orders);
-    console.log("order_item",order_item);
-    console.log("books", order_item);
-    let order_itemPick
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  let orders = useSelector(selectOrders);
+  let dispatch = useDispatch();
+  
+  useEffect(()=>{
+    console.log("run use efect");
     
-    
-    
+    dispatch(loadAllOrder())
+        .unwrap()
+        .then(data=>{});
+
+},[])
+  //  let [search,setSearch]=useState("")
+   
+  
+let getOrderByDate =()=>{
+     let data = {start: startDate.toISOString(), end: endDate.toISOString()}
+     dispatch(getOrderByDateRange(data))
+     
+}
+
+let getOrderByStatusHandle=(status:any)=>{
+     console.log(status);
+     dispatch(getOrderByStatus(status))
+     
+}
+   
     
   return (
     <div>
@@ -23,24 +42,30 @@ export default function page() {
        
        <div className="flex justify-between items-center my-2 px-3">
        
-       <select  onChange={(e)=>{setOption(e.target.value)}} name="cars" id="cars" className='text-center py-1 rounded px-3'>
+       <select  onChange={(e)=>{getOrderByStatusHandle({status: e.target.value})}} name="cars" id="cars" className='text-center py-1 rounded px-3'>
        <option value="">All</option>
-       <option value="warrenty">Warrenty</option>
-       <option value="contract">Contract</option>
+       <option value="0">Pending</option>
+       <option value="1">Finish</option>
        </select> 
        <div  className='ml-36' >                    
      
        <div className=" flex items-center gap-3 ml-5 ">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-      </svg> 
      
-      <div className={`hidden md:flex items-center gap-3`}>
-      <input value={search} onChange={(e)=>{setSearch(e.target.value)}}  type="text" placeholder="Search Customers..." className="outline-none w-24 md:w-auto" />
-      <button  className="text-white bg-primary px-1 md:px-3 py-1 rounded-2xl flex items-center">
-              <span className="">search</span>
-        </button>
+     
+      <div className="flex gap-3 -ml-3">
+           <div className="border ">
+           <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+           </div>
+         <div className="border">
+         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
          </div>
+         </div>
+
+        <button onClick={getOrderByDate}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+       </svg> 
+        </button> 
          </div>
   
        </div>
@@ -51,7 +76,7 @@ export default function page() {
            <tr>
            <th>Name</th>
            <th>Phone</th>
-           <th>Address</th>
+           <th>Status</th>
            <th>Detail</th>
            </tr>
        </thead>
@@ -62,7 +87,7 @@ export default function page() {
              <tr className='border-b hover:bg-slate-200 py-2'>
            <td className='text-primary'>{order.name}</td>
            <td>{order.phone}</td>
-           <td>{order.address}</td>
+           <td>{order.status=="1"?"finish":"pending"}</td>
           <td>
               <Link href={`/admin/orders/${order._id}`}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

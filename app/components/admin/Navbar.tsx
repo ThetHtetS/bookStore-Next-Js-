@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Navbar({sideHandle}) {
   return (
-    <nav className="h-10 w-full bg-slate-200 px-3 shadow">
+    <nav className="h-10 w-full bg-zinc-500 px-3 shadow">
     <div className="flex justify-between items-center pt-1">
       <div >
         {/* menu button */}

@@ -2,24 +2,37 @@
 "use client"
 
 import { selectBooks, selectOrder_items, selectOrders, useSelector } from "@/lib/redux"
+import { getOrderById, loadAllOrder, updateOrder } from "@/lib/redux/slices/orderSlice/thunks";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
 
 export default function Page({ params }: { params: { id: number } }) {
-    let orders = useSelector(selectOrders);
-    let order_items= useSelector(selectOrder_items);
-    let books= useSelector(selectBooks)
-    let order = orders.filter(order=> order._id==params.id);
-    let order_item = order_items.filter(item=>item.order== order[0]._id)
+    let dispatch = useDispatch();
+    let order = useSelector(selectOrders);
     let subtotal =0;
-    console.log(order);
-    console.log(order_item);
-    
+     
+     useEffect(()=>{
+      let data = {_id: params.id}
+      console.log(data);
+      
+      dispatch(getOrderById(data)).unwrap()
+      .then(data=> {
+      })
+    },[])
+    const updateOrderStatus=(status:any)=>{
+      let order= {status: status, _id: params.id}
+      dispatch(updateOrder(order))
+    }
     
     return (
-   <div className=" h-screen px-16 ">
-        <div className="bg-white w-2/5 border h-60 mt-16  shadow px-4 pt-3">
+   <div className=" h-screen md:px-16 ">
+        
+        <div className="bg-white md:w-2/5 border h-60 mt-10  shadow px-4 pt-3">
            <h1 className="font-bold text-2xl">Order Info</h1>
-           {order && <div className=" pt-6 space-y-3">
+           {!!order.length  && 
+            <div className=" pt-6 space-y-3">
             <div className="flex item-center justify-start gap-10">
                 <div className="ml-3 flex item-centers gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -51,21 +64,15 @@ export default function Page({ params }: { params: { id: number } }) {
                 <div className="">{order[0].address}</div>
             </div>
             <div className="flex item-centers justify-start gap-12"> 
-                <div className="ml-3 flex item-centers gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-
-                    total
-                </div>
-                <div className="">{subtotal}</div>
+                
+               
             </div>
            </div>}
         </div>
 
         <div className="mt-6">
         {
-        !!order_item.length && <table className="table-auto w-full border-separate border-spacing-y-7">
+        !!order.length && <table className="table-auto w-full border-separate border-spacing-y-7">
         <thead className=''>
               <tr className=''>
                 <th className='border-b pb-4 text-start'>PROUDCT</th>
@@ -74,36 +81,35 @@ export default function Page({ params }: { params: { id: number } }) {
                 <th className='border-b pb-4 text-start'>TOTAL</th>
               </tr>
           </thead>
-          {order_item.map((item)=>{
-            let book= books.filter(book=> book._id == item.book )
-             subtotal += book[0].price* item.qty;
+           {order.length&& order[0].orderItem.map((item)=>{
+             subtotal += item.book.price* item.qty;
             
             return(
             
             <tbody className=''>
               <tr className=''>
                 <td className='border-b pb-5'>
-                  {book[0].title}     
+                  {item.book.title} 
                 </td>
                
                 <td className='border-b pb-5'> 
                  <div className="">{item.qty}</div>
                 </td>
-                <td className='border-b pb-5'> {item.qty* book[0].price}</td>
+                <td className='border-b pb-5'> {item.qty* item.book.price}</td>
               </tr>
             </tbody> 
       )})}
         </table>  
       }
 
-        {!!order_item.length &&        
+        {!!order.length && !!order[0].orderItem.length &&        
          <div className='text-right mr-16'>
           Subtotal: {subtotal}
-          <div className='pt-3'>
-           <Link href="/checkout">
-             <button className='px-3 py-1 rounded-lg bg-black text-white'>Check Out</button>
-           </Link>   
-                    
+          <div className='pt-3'>  
+            <select value={order[0].status}  onChange={(e)=>{updateOrderStatus(e.target.value)}} className='text-center py-1 rounded px-3'>
+            <option value="0">Pending</option>
+            <option value="1">Finish</option>
+       </select>    
          </div>
    
           </div>}
@@ -112,3 +118,4 @@ export default function Page({ params }: { params: { id: number } }) {
 
    </div>
 )}
+

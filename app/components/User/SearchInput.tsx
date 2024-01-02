@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 
-import searchIcon from '../assets/search.svg';
+import { selectBooks, useSelector } from '@/lib/redux';
+import BooksList from './BookList';
 
 
 
 
-export default function SearchInput({SearchHandle}) {
+
+export default function SearchInput({SearchHandle, searchBook}) {
 
     let [search, setSearch] = useState("");
-   
-    
+   let books = useSelector(selectBooks)
+    console.log(books)
      let [show , setShow]=useState(false);
      let searchBtn =()=> {
         // setParam(["generators","search",null, search])
@@ -38,8 +40,8 @@ export default function SearchInput({SearchHandle}) {
     --> */}
     <div className="fixed inset-0 bg-gray-500 bg-opacity-90 transition-opacity"></div>
   
-    <div className="fixed inset-0 h-40 bg-white z-10 w-screen  " >
-      <div className="flex h-40 items-end justify-center p-4 text-center sm:items-center sm:p-0">
+    <div className="fixed inset-0  bg-white z-10 w-screen  " >
+      <div className="flex  items-end justify-center p-4 text-center sm:items-center sm:p-0">
         {/* <!--
           Modal panel, show/hide based on modal state.
   
@@ -64,18 +66,22 @@ export default function SearchInput({SearchHandle}) {
                 </button> 
               <div className="w-full border py-2 flex" >
                    <input  value={search} onChange={e => setSearch(e.target.value)} type="text" placeholder="Search..." className="outline-none ml-4 w-full " />
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="mr-4 w-6 h-6">
+                   <button onClick={()=>{searchBook(search)
+                setShow(true)}}>
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="mr-4 w-6 h-6">
                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
+                   </button>
 
               </div>
                 
                 
-                
+                 
             </div>
               
             <div className={`${show ? '':'hidden'}`}>
             {/* <SearchUI data={data} loading={loading} error={error} isDark={isDark} /> */}
+            <BooksList  books={books} />
             </div>
           </div>
           

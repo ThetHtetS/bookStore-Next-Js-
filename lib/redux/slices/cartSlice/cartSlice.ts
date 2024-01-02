@@ -9,11 +9,7 @@ export interface CartSliceState {
 
 const initialState: CartSliceState ={
     carts: [
-        {
-            _id:1,
-            book: 2,
-            qty:3
-        }
+       
 
     ]
 }

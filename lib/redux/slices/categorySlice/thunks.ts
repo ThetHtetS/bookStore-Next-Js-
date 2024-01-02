@@ -1,5 +1,5 @@
 import {createAppAsyncThunk} from "@/lib/redux/createAppAsyncThunk";
-import { addCategoryApi, deleteCategoryApi, fetchAllCategory} from "@/lib/redux/slices/categorySlice/api";
+import { addCategoryApi, deleteCategoryApi, fetchAllCategory, updateCategoryApi} from "@/lib/redux/slices/categorySlice/api";
 
 import {categorySlice} from "@/lib/redux";
 import Category from "./category";
@@ -22,9 +22,24 @@ export const addCategory = createAppAsyncThunk(
         return newCategory;
     }
 )
+
+export const updateCategory = createAppAsyncThunk(
+    'category/updateCategory',
+    
+    
+    async(category:Category,thunkApi)=>{
+        console.log("update category thunks");
+        let updatedCategory = await updateCategoryApi(category);
+        thunkApi.dispatch(categorySlice.actions.updateCategory(updatedCategory));
+        return updatedCategory;
+    }
+)
+
 export const deleteCategory = createAppAsyncThunk(
     'category/deleteCategory',
     async(Category:Category,thunkApi)=>{
+        console.log(Category);
+        
         let deleteCategory = await deleteCategoryApi(Category);
         console.log('Thunk Api ',thunkApi);
         console.log('Thunk response delete Category ',deleteCategory);

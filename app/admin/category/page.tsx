@@ -10,7 +10,7 @@ import {
   selectCategories,
 }
 from '@/lib/redux'
-import { addCategory, deleteCategory, loadAllCategory } from '@/lib/redux/slices/categorySlice/thunks';
+import { addCategory, deleteCategory, loadAllCategory, updateCategory } from '@/lib/redux/slices/categorySlice/thunks';
 
 
 
@@ -36,18 +36,20 @@ export default function IndexPage() {
   let saveOrUpdateCategory =(category: Category)=>{
     if(categoryToEdit){
      let data ={...category, _id: categoryToEdit._id}
-     dispatch(categorySlice.actions.updateCategory(data))
+     dispatch(updateCategory(data))
      setCategoryToEdit(null)
     }
     else{
      let data={...category}
      dispatch(addCategory(data))
-    //  dispatch(categorySlice.actions.addCategory(data))
+    //dispatch(categorySlice.actions.addCategory(data))
     }  
  }
 
   let deleteHandler  =(data)=>{
-     dispatch(deleteCategory(data))  
+     dispatch(deleteCategory(data))
+     console.log("delete category");
+       
     //dispatch(categorySlice.actions.deleteCategory(data))
   }
   return (

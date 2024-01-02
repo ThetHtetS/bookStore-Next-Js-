@@ -1,7 +1,7 @@
 /* Core */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import Category from './category'
-import { addCategory, deleteCategory, loadAllCategory } from './thunks'
+import { addCategory, deleteCategory, loadAllCategory, updateCategory } from './thunks'
 
 /* Instruments */
 //import { incrementAsync } from './thunks'
@@ -16,22 +16,8 @@ const initialState: CategorySliceState = {
       _id: 1,
       name: "Business"
     },
-    {
-      _id:2,
-      name: "Health"
-    },
-    {
-      _id: 3,
-      name: "Comic"
-    },
-   {
-    _id: 4,
-    name: "History"
-   },
-   {
-    _id: 5,
-    name: "Kids"
-   }
+    
+   
  ]
 }
 
@@ -69,6 +55,11 @@ export const categorySlice = createSlice({
         .addCase(addCategory.fulfilled, (state,action) => {
             console.log('Extra addToDo reducer fullfilled ',action.payload);
             state.categories.push( action.payload);
+        })
+        .addCase(updateCategory.fulfilled, (state,action) => {
+         // console.log('Extra delete todo reducer reject ',action.payload);
+          // state.categories = state.categories.map(cat=> cat._id== action.payload._id? action.payload.name : cat)
+          state.categories = state.categories.map(item=> item._id == action.payload._id?action.payload: item);
         })
         .addCase(deleteCategory.fulfilled, (state,action) => {
           console.log('Extra delete todo reducer reject ',action.payload);

@@ -11,7 +11,12 @@ export default function CategoryList(props:
   return (
     
          <div className='grid md:grid-cols-4 mx-auto gap-12 h-24  '>
-            
+              <div onClick={e=>setOpen(true)} className="border shadow text-center bg-green-400 pt-8 pb-8
+                transition ease-in-out delay-150  
+                hover:-translate-y-1 hover:scale-110 duration-300" 
+                >
+                Add New Category   
+            </div>
             {categories.map(item=>{
             return(
             <div className="group border shadow text-center bg-white pt-8 pb-8 px-12 transition ease-in-out delay-150    hover:-translate-y-1 hover:scale-110 duration-300 group" key={item._id}>
@@ -39,12 +44,7 @@ export default function CategoryList(props:
             )
             })}
 
-            <div onClick={e=>setOpen(true)} className="border shadow text-center bg-green-400 pt-8 pb-8
-                transition ease-in-out delay-150  
-                hover:-translate-y-1 hover:scale-110 duration-300" 
-                >
-                Add New Category   
-            </div>
+          
          </div> 
   )
 }

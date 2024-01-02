@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import Book from './book'
+import { addBook, deleteBook, getBookById, getBookByTitle, loadAllBook, updateBook } from './thunks';
 
 export interface BookSliceState {
     books:  Book[];
@@ -52,8 +53,45 @@ export const bookSlice = createSlice({
      updateBook:(state,action:PayloadAction<Book>)=> {
       state.books = state.books.map(item=> item._id == action.payload._id?action.payload: item);
    },
-    },
+    }, 
+    extraReducers: (builder) => {
+        builder
+            // .addCase(loadAllBook.pending, (state,action) => {
+            //     console.log('Extra reducer Payload ',action.payload);
     
+            // })
+            .addCase(loadAllBook.fulfilled, (state,action) => {
+                console.log('Extra reducer fullfilled ',action.payload);
+                state.books = action.payload;
+            })
+            .addCase(getBookByTitle.fulfilled, (state,action) => {
+                console.log('Extra reducer fullfilled ',action.payload);
+                state.books = action.payload;
+            })
+            .addCase(getBookById.fulfilled, (state,action) => {
+                console.log('Extra reducer fullfilled ',action.payload);
+                state.books = action.payload;
+            })
+            .addCase(addBook.fulfilled, (state,action) => {
+                console.log('Extra addToDo reducer fullfilled ',action.payload);
+                state.books.push( action.payload);
+            })
+            .addCase(updateBook.fulfilled, (state,action) => {
+             // console.log('Extra delete todo reducer reject ',action.payload);
+              // state.books = state.books.map(cat=> cat._id== action.payload._id? action.payload.name : cat)
+              state.books = state.books.map(item=> item._id == action.payload._id?action.payload: item);
+            })
+            .addCase(deleteBook.fulfilled, (state,action) => {
+              console.log('Extra delete todo reducer reject ',action.payload);
+    
+          })
+            .addCase(deleteBook.rejected, (state,action) => {
+                console.log('Extra delete todo reducer reject ',action.payload);
+    
+            })
+        ;
+    
+    },
     
   })
 
