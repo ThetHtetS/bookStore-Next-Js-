@@ -27,3 +27,12 @@ pnpm create next-app --example with-redux with-redux-app
 ```
 
 Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+
+
+![Screenshot from 2024-01-02 23-21-06](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/2971e14a-bda4-40fb-8470-a6b236d7a26f)
+
+
+
+
+
+
