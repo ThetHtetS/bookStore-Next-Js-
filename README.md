@@ -71,14 +71,13 @@ This BookStore project is build using React Js(NEXT JS) for Frontend, Tailwand C
 ## Admin Book Mobile View
 ![adminBookMobile](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/225f894f-73f0-4830-8da6-d6b072a37431)
 
+## Admin Book
 
 ![adminbook](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/fdc38c5d-61a5-40bb-879e-efdc5affe624)
 
-
+## Admin view Order 
 ![Adminorder](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/9baa2962-c164-4409-ba07-b26d706639f8)
 
-## Admin User Page
-![adminUser](htt![Screenshot from 2024-01-02 23-42-56]
 
 ## Admin Order Detail and change order status
 ![orderDetail](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/37842fcb-da2d-4c3e-9148-bfdc84c66fdf)
