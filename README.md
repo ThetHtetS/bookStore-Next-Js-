@@ -11,7 +11,7 @@ This BookStore project is build using React Js(NEXT JS) for Frontend, Tailwand C
 ## Home Design in PC view
 ![Screenshot from 2024-01-02 23-21-06](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/2971e14a-bda4-40fb-8470-a6b236d7a26f)
 
-
+## Home Design in Mobile View
 ![Screenshot from 2024-01-02 23-30-38](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/0f6ffe62-989d-4f02-a0ac-242282701a18)
 
 
