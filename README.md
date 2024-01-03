@@ -1,3 +1,8 @@
+This is Next Js + Redux + typescript bookstore project.
+
+checking authentication useing highte
+
+
 # Redux Toolkit TypeScript Example
 
 This example shows how to integrate Next.js with [Redux Toolkit](https://redux-toolkit.js.org).
