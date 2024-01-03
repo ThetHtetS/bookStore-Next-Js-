@@ -1,4 +1,5 @@
-This is Next Js + Redux + typescript bookstore project.
+
+## Next Js + Redux + typescript   bookstore project.
 
 checking authentication useing highte
 
