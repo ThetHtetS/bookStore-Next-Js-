@@ -1,5 +1,5 @@
 
-## Next Js + Redux + typescript   bookstore project.
+## Next Js + Redux + typescript   bookstore project with Express Backend Api
 
 checking authentication useing highte
 
