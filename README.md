@@ -8,7 +8,7 @@ This BookStore project is build using React Js(NEXT JS) for Frontend, Tailwand C
    Admin can create, read, update and delete Category and Books, view order, also by status, by date range, view order detail, change order status, view user list, and in Admin Dashboard can view total number of books, users, categories and orders 
 
 
-
+## Home Design in PC view
 ![Screenshot from 2024-01-02 23-21-06](https://github.com/ThetHtetS/bookStore-Next-Js-/assets/93851735/2971e14a-bda4-40fb-8470-a6b236d7a26f)
 
 
