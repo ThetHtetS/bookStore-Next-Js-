@@ -1,9 +1,11 @@
 
-## Next Js + Redux + typescript   bookstore project with Express Backend Api
+## Next Js + Redux + Typescript   bookstore project with Express Backend Api
 
-checking authentication useing highte
+This BookStore project is build using React Js(NEXT JS) for Frontend, Tailwand CSS for UI, Typescript for Type Checking, use higher order component for authentication, use formik for form handalling, use API from backend Express JS. 
 
+   Users can search for books, add to cart, increase product qty, remove product from cart, checkout, view order history and status, view book detail page and add reviews.
 
+   Admin can create, read, update and delete Category and Books, view order, also by status, by date range, view order detail, change order status, view user list, and in Admin Dashboard can view total number of books, users, categories and orders 
 
 
 
