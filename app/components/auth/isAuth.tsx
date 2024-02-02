@@ -1,28 +1,19 @@
 import React from 'react';
 
-import {selectAuth, useSelector} from "@/lib/redux";
-import {useRouter} from "next/navigation";
-import { useSearchParams } from 'next/navigation'
-import { usePathname } from 'next/navigation';
-function IsAuth<T>(Component: React.ComponentType<T>) {
-    return (props: T) => {
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+//import { selectAuth, useSelector } from '@/lib/redux';
 
-        const router = useRouter();
-        const pathname = usePathname();
-        let token= window.localStorage.getItem("token")
-        console.log('Path name ',pathname);
-        if (!token) {
-            router.push('/account/login');
-        }
-         else{
-          return (
-            <>
-                <Component {...props!} />
-            </>
-        );
-         }
-      
-    };
+function IsAuth<T>(Component: React.ComponentType<T>) {
+  return function (props: T) {
+    const router = useRouter();
+    const pathname = usePathname();
+    const token = window.localStorage.getItem('token');
+    if (!token) {
+      router.push('/account/login');
+    } else {
+      return <Component {...props!} />;
+    }
+  };
 }
 
 export default IsAuth;

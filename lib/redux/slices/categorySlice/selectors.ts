@@ -1,10 +1,9 @@
-import type { ReduxState } from '@/lib/redux'
+import type { ReduxState } from '@/lib/redux';
 import Category from './category';
-//import Movie from "@/lib/redux/slices/movieSlice/Movie";
+// import Movie from "@/lib/redux/slices/movieSlice/Movie";
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectCategories = (state: ReduxState) => state.category.categories;
- export const getCategoryById = (categories:Category[],id: number) =>
-                                            categories.find(cat=>cat._id==id)
+export const getCategoryById = (categories:Category[], id: number) => categories.find((cat) => cat._id == id);

@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
 /* Core */
-import { useState } from 'react'
+import { useState } from 'react';
 
 /* Instruments */
 import {
@@ -11,13 +11,13 @@ import {
   selectCount,
   incrementAsync,
   incrementIfOddAsync,
-} from '@/lib/redux'
-import styles from './counter.module.css'
+} from '@/lib/redux';
+import styles from './counter.module.css';
 
-export const Counter = () => {
-  const dispatch = useDispatch()
-  const count = useSelector(selectCount)
-  const [incrementAmount, setIncrementAmount] = useState(2)
+export function Counter() {
+  const dispatch = useDispatch();
+  const count = useSelector(selectCount);
+  const [incrementAmount, setIncrementAmount] = useState(2);
 
   return (
     <div>
@@ -47,9 +47,7 @@ export const Counter = () => {
         />
         <button
           className={styles.button}
-          onClick={() =>
-            dispatch(counterSlice.actions.incrementByAmount(incrementAmount))
-          }
+          onClick={() => dispatch(counterSlice.actions.incrementByAmount(incrementAmount))}
         >
           Add Amount
         </button>
@@ -67,5 +65,5 @@ export const Counter = () => {
         </button>
       </div>
     </div>
-  )
+  );
 }

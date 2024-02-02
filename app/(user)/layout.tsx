@@ -1,18 +1,18 @@
 /* Components */
-import { Providers } from '@/lib/providers'
+import { Providers } from '@/lib/providers';
 // import { Nav } from './components/Nav'
 
 /* Instruments */
-import styles from './styles/layout.module.css'
-import '../styles/globals.css'
-import Nav from '../components/User/Nav'
+//import styles from './styles/layout.module.css';
+import '../styles/globals.css';
+import Nav from '../components/User/Nav';
 
 export default function RootLayout(props: React.PropsWithChildren) {
   return (
     <Providers>
       <html lang="en">
         <body>
-          <section >
+          <section>
             <Nav />
             {/* <Nav /> */}
 
@@ -20,9 +20,9 @@ export default function RootLayout(props: React.PropsWithChildren) {
               <img src="/logo.svg" className={styles.logo} alt="logo" />
             </header> */}
 
-            <main >{props.children}</main>
-
-            {/* <footer className={styles.footer}>
+            <main>{props.children}</main>
+            {/*
+            <footer className={styles.footer}>
               <span>Learn </span>
               <a
                 className={styles.link}
@@ -64,5 +64,5 @@ export default function RootLayout(props: React.PropsWithChildren) {
         </body>
       </html>
     </Providers>
-  )
+  );
 }

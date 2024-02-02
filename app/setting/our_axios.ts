@@ -1,36 +1,35 @@
-import {API_URL} from "../setting/API";
-//import useAuth from "../services/authService";
+import { API_URL } from './API';
+// import useAuth from "../services/authService";
 const axios = require('axios');
-//console.log("axios default ",axios.defaults)
+// console.log("axios default ",axios.defaults)
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-//let store:any;
- let token= localStorage.getItem("token");
+// let store:any;
+const token = localStorage.getItem('token');
+console.log(token);
 
 // export const injectStore = (_store:any) => {
 //     store = _store;
 // }
 
-axios.interceptors.request.use(async function (config:any) {
-   // console.log('API request ',store.getState());
-  //  const authUser = store.getState().auth;
-   // console.log('API request auth user ',authUser);
-    if( token)
-    {
-        config.headers.Authorization = 'Bearer '+ token;
+axios.interceptors.request.use(
+  async (config: any) => {
+    // console.log('API request ',store.getState());
+    //  const authUser = store.getState().auth;
+    // console.log('API request auth user ',authUser);
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-},function(error:any){
-    console.log("Axios interceptor error ",error);
+  },
+  (error: any) => {
+    console.log('Axios interceptor error ', error);
     return error;
-});
-
+  },
+);
 
 export default axios;
-
-
-
 
 // import {API_URL} from "../setting/API";
 // //import useAuth from "../services/authService";
@@ -58,6 +57,5 @@ export default axios;
 // //     console.log("Axios interceptor error ",error);
 // //     return error;
 // // });
-
 
 // export default axios;
