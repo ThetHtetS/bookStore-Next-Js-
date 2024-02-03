@@ -89,9 +89,7 @@ export default function page() {
                 <tbody>
                   <tr>
                     <td className="border-b pb-5">{el.book.title}</td>
-                    <td className="border-b pb-5 -ml-8">
-                      {item.status === '1' ? 'Done' : 'Pending'}
-                    </td>
+                    <td className="border-b pb-5 -ml-8">{item.status}</td>
                     <td className="border-b pb-5">{el.book.price}</td>
                     <td className="border-b pb-5">
                       <div className=" px-4">{el.qty}</div>

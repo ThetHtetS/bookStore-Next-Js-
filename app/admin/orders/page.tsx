@@ -33,7 +33,7 @@ export default function page() {
     dispatch(getOrderByDateRange(data));
   };
 
-  const getOrderByStatusHandle = (status: any) => {
+  const getOrderByStatusHandle = (status: String) => {
     dispatch(getOrderByStatus(status));
   };
 
@@ -43,15 +43,15 @@ export default function page() {
         <div className="flex justify-between items-center my-2 px-3">
           <select
             onChange={(e) => {
-              getOrderByStatusHandle({ status: e.target.value });
+              getOrderByStatusHandle(e.target.value);
             }}
             name="cars"
             id="cars"
             className="text-center py-1 rounded px-3"
           >
-            <option value="">All</option>
-            <option value="0">Pending</option>
-            <option value="1">Finish</option>
+            <option value="All">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Finish">Finish</option>
           </select>
           <div className="ml-36">
             <div className=" flex items-center gap-3 ml-5 ">
@@ -109,7 +109,7 @@ export default function page() {
                   <tr className="border-b hover:bg-slate-200 py-2">
                     <td className="text-primary">{order.name}</td>
                     <td>{order.phone}</td>
-                    <td>{order.status === '1' ? 'finish' : 'pending'}</td>
+                    <td>{order.status}</td>
                     <td aria-label="orderDetail">
                       <Link href={`/admin/orders/${order._id}`}>
                         <svg

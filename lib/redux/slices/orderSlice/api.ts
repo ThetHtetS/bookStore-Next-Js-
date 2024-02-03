@@ -5,50 +5,57 @@ import Order from './order';
 
 export const fetchAllOrder = async () => {
   const result = await axios.get(`${API_URL}/orders`);
-  const data = await result.data;
+  const data = await result.data.data.orders;
   return data;
 };
 
-export const addOrderApi = async (Order:Order) => {
+export const addOrderApi = async (Order: Order) => {
   const result = await axios.post(`${API_URL}/orders`, Order);
-  const data = await result.data;
+  const data = await result.data.data.order;
   return data;
 };
 
-export const updateOrderApi = async (Order:Order) => {
+export const updateOrderApi = async (Order: Order) => {
   const result = await axios.put(`${API_URL}/orders/${Order._id}`, Order);
-  const data = await result.data;
+  const data = await result.data.data.order;
+
   return data;
 };
 
-export const deleteOrderApi = async (Order:Order) => {
+export const deleteOrderApi = async (Order: Order) => {
   const result = await axios.delete(`${API_URL}/orders/${Order._id}`);
-  const data = await result.data;
+  const data = await result.data.data.order;
   return data;
 };
 
-export const getOrderByIdApi = async (Order:Order) => {
+export const getOrderByIdApi = async (Order: Order) => {
   const result = await axios.get(`${API_URL}/orders/${Order._id}`);
-  const data = await result.data;
+  const data = await result.data.data.order;
   return data;
 };
 
-export const getOrderByUserIdApi = async (id:any) => {
-  const result = await axios.get(`${API_URL}/orders/user/${id}`);
-  const data = await result.data;
+export const getOrderByUserIdApi = async (id: any) => {
+  const result = await axios.get(`${API_URL}/users/${id}/orders`);
+  const data = await result.data.data.orders;
   return data;
 };
 
 export const getOrderByDateRangeApi = async (date) => {
-  console.log('api call', date);
-
-  const result = await axios.post(`${API_URL}/orders/date`, date);
-  const data = await result.data;
+  const result = await axios.get(
+    `${API_URL}/orders?createdAt[gte]=${date.start}&createdAt[lt]=${date.end}`,
+  );
+  const data = await result.data.data.orders;
   return data;
 };
 
 export const getOrderByStatusApi = async (status) => {
-  const result = await axios.post(`${API_URL}/orders/status`, status);
-  const data = await result.data;
+  let result;
+  if (status === 'All') {
+    result = await axios.get(`${API_URL}/orders`);
+  } else {
+    result = await axios.get(`${API_URL}/orders?status=${status}`);
+  }
+
+  const data = await result.data.data.orders;
   return data;
 };

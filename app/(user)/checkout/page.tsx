@@ -24,7 +24,6 @@ export default function Page() {
     const uid = localStorage.getItem('Uid');
     const order = {
       ...data,
-      status: 0,
       uid,
       orderItem: orde,
     };
@@ -114,7 +113,7 @@ export default function Page() {
       </div>
       <div className=" md:w-2/5  pt-20 px-20 ">
         {cart.map((item) => {
-          const book = books.filter((book) => book._id === item.book);
+          const book = books.filter((ele) => ele._id === item.book);
           subtotal += book[0].price * item.qty;
 
           return (

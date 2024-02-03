@@ -1,12 +1,19 @@
 import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
 import {
-  addOrderApi, deleteOrderApi, fetchAllOrder, getOrderByDateRangeApi, getOrderByIdApi, getOrderByStatusApi, getOrderByUserIdApi, updateOrderApi,
+  addOrderApi,
+  deleteOrderApi,
+  fetchAllOrder,
+  getOrderByDateRangeApi,
+  getOrderByIdApi,
+  getOrderByStatusApi,
+  getOrderByUserIdApi,
+  updateOrderApi,
 } from '@/lib/redux/slices/orderSlice/api';
 import { orderSlice } from '@/lib/redux';
 import Order from './order';
 
 export const loadAllOrder = createAppAsyncThunk(
-  'order/fetchAllOrder',
+  'order/loadAllOrder',
   async () => {
     const data = await fetchAllOrder();
     return data;
@@ -14,8 +21,8 @@ export const loadAllOrder = createAppAsyncThunk(
 );
 
 export const addNewOrder = createAppAsyncThunk(
-  'order/addOrder',
-  async (Order:Order) => {
+  'order/addNewOrder',
+  async (Order: Order) => {
     const newOrder = await addOrderApi(Order);
     return newOrder;
   },
@@ -23,7 +30,7 @@ export const addNewOrder = createAppAsyncThunk(
 
 export const updateOrder = createAppAsyncThunk(
   'order/updateOrder',
-  async (Order:Order, thunkApi) => {
+  async (Order: Order, thunkApi) => {
     const newOrder = await updateOrderApi(Order);
     //  thunkApi.dispatch(orderSlice.actions.updateOrder(newOrder));
     return newOrder;
@@ -32,7 +39,7 @@ export const updateOrder = createAppAsyncThunk(
 
 export const deleteOrder = createAppAsyncThunk(
   'order/deleteOrder',
-  async (Order:Order, thunkApi) => {
+  async (Order: Order, thunkApi) => {
     console.log(Order);
 
     const deleteOrder = await deleteOrderApi(Order);
@@ -46,7 +53,7 @@ export const deleteOrder = createAppAsyncThunk(
 
 export const getOrderById = createAppAsyncThunk(
   'order/getOrderById',
-  async (Order:Order, thunkApi) => {
+  async (Order: Order, thunkApi) => {
     console.log(Order);
     const order = await getOrderByIdApi(Order);
     // console.log('Thunk Api ',thunkApi);

@@ -29,7 +29,7 @@ export default function IndexPage() {
   const categories: Category[] = useSelector(selectCategories);
   let [pagin, setPagin] = useState({
     page: 1,
-    limit: 2,
+    limit: 4,
   });
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function IndexPage() {
       .unwrap()
       .then((data) => console.log('Response from thunk ', data));
     dispatch(loadAllCategory());
-  }, []);
+  }, [pagin]);
 
   const btnEditHandler = (book: Book) => {
     setBookToEdit(book);
@@ -58,23 +58,15 @@ export default function IndexPage() {
     dispatch(deleteBook(data));
   };
 
+  const next = () => {
+    setPagin({ page: pagin.page + 1, limit: 4 });
+  };
+  const previous = () => {
+    setPagin({ page: pagin.page - 1, limit: 4 });
+  };
+
   return (
-    <div className="pt-12 px-16 md:px-8 h-screen ">
-      <BooksList
-        btnEditHandler={btnEditHandler}
-        deleteHandler={deleteHandler}
-        open={open}
-        setOpen={setOpen}
-        books={books}
-      />
-      <NewOrUpdateBooks
-        open={open}
-        setOpen={setOpen}
-        categories={categories}
-        bookToEdit={bookToEdit}
-        setBookToEdit={setBookToEdit}
-        saveOrUpdateBook={saveOrUpdateBook}
-      />
+    <div className="pt-3 pb-3 px-16 md:px-8 h-screen ">
       <div className="flex items-center justify-between px-4 py-3 sm:px-6">
         <div className="flex flex-1 justify-between  ">
           <div
@@ -91,6 +83,21 @@ export default function IndexPage() {
           </div>
         </div>
       </div>
+      <BooksList
+        btnEditHandler={btnEditHandler}
+        deleteHandler={deleteHandler}
+        open={open}
+        setOpen={setOpen}
+        books={books}
+      />
+      <NewOrUpdateBooks
+        open={open}
+        setOpen={setOpen}
+        categories={categories}
+        bookToEdit={bookToEdit}
+        setBookToEdit={setBookToEdit}
+        saveOrUpdateBook={saveOrUpdateBook}
+      />
     </div>
   );
 }

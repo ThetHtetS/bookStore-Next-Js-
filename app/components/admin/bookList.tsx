@@ -12,15 +12,6 @@ export default function BooksList(props: {
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 mx-auto gap-12">
-      <button
-        type="button"
-        onClick={() => {
-          setOpen(!open);
-        }}
-        className=" border text-center md:py-44 w-25 md:w-auto pt-24"
-      >
-        Add New Book
-      </button>
       {books.map((item) => (
         // var cat= categories.filter(cat=> cat._id== item.category)
         <div className="bg-white h-48 group mb-28 w-28 md:w-auto">
@@ -89,6 +80,15 @@ export default function BooksList(props: {
           </div>
         </div>
       ))}
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(!open);
+        }}
+        className=" border text-center md:py-44 w-25 md:w-auto pt-24"
+      >
+        Add New Book
+      </button>
     </div>
   );
 }

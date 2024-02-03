@@ -1,7 +1,14 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import Order from './order';
 import {
-  addNewOrder, deleteOrder, getOrderByDateRange, getOrderById, getOrderByStatus, getOrderByUserId, loadAllOrder, updateOrder,
+  addNewOrder,
+  deleteOrder,
+  getOrderByDateRange,
+  getOrderById,
+  getOrderByStatus,
+  getOrderByUserId,
+  loadAllOrder,
+  updateOrder,
 } from './thunks';
 
 export interface OrderSliceState {
@@ -24,18 +31,24 @@ export const orderSlice = createSlice({
   name: 'order',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
-  reducers:
-     {
-       addOrder: (state, action:PayloadAction<Order>) => {
-         state.orders.push(action.payload);
-       },
-       deleteOrder: (state, action:PayloadAction<Order>) => {
-         state.orders = state.orders.filter((item) => item._id != action.payload._id);
-       },
-       updateOrder: (state, action:PayloadAction<Order>) => {
-         state.orders = state.orders.map((item) => (item._id == action.payload._id ? action.payload : item));
-       },
-     },
+  reducers: {
+    loadAllOrder: (state, action: PayloadAction<Order[]>) => {
+      state.orders = action.payload;
+    },
+    addOrder: (state, action: PayloadAction<Order>) => {
+      state.orders.push(action.payload);
+    },
+    deleteOrder: (state, action: PayloadAction<Order>) => {
+      state.orders = state.orders.filter(
+        (item) => item._id != action.payload._id,
+      );
+    },
+    updateOrder: (state, action: PayloadAction<Order>) => {
+      state.orders = state.orders.map((item) =>
+        item._id == action.payload._id ? action.payload : item,
+      );
+    },
+  },
 
   extraReducers: (builder) => {
     builder
