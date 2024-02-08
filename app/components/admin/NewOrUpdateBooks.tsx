@@ -1,6 +1,7 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
+import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import React, { Fragment, useRef } from 'react';
 import Category from '@/lib/redux/slices/categorySlice/category';
@@ -22,6 +23,14 @@ export default function NewOrUpdateBooks(props: {
     setBookToEdit,
     saveOrUpdateBook,
   } = props;
+  const bookSchema = Yup.object().shape({
+    title: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Name is Required'),
+    price: Yup.number().required('Price is required'),
+    qty: Yup.number().required('Product quantity is necessary!'),
+  });
   const cancelButtonRef = useRef(null);
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -73,62 +82,61 @@ export default function NewOrUpdateBooks(props: {
                           price: bookToEdit ? bookToEdit.price : '',
                           qty: bookToEdit ? bookToEdit.qty : '',
                         }}
+                        validationSchema={bookSchema}
                         onSubmit={(values) => {
                           saveOrUpdateBook(values);
                           setOpen(false);
                         }}
-                        //  validate={values => {
-
-                        //    const errors = {};
-
-                        //    if (!values.email) {
-
-                        //      errors.email = 'Required';
-
-                        //    } else if (
-
-                        //      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-
-                        //    ) {
-
-                        //      errors.email = 'Invalid email address';
-
-                        //    }
-
-                        //    return errors;
-
-                        //  }}
                       >
                         {({ isSubmitting }) => (
-                          <Form className="space-y-5">
-                            <Field
-                              placeholder="Enter Book Title"
-                              type="text"
-                              name="title"
-                              className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
+                          <Form className="space-y-8">
+                            <div className="space-y-1">
+                              <Field
+                                placeholder="Enter Book Title"
+                                type="text"
+                                name="title"
+                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
                                                       text-gray-900 ring-1 placeholder:text-gray-400
                                                           sm:text-sm sm:leading-6"
-                            />
+                              />
 
-                            <ErrorMessage name="email" component="div" />
+                              <ErrorMessage
+                                name="title"
+                                className="absolute mx-6  text-red-500"
+                                component="div"
+                              />
+                            </div>
 
-                            <Field
-                              placeholder="Enter Book Price"
-                              type="text"
-                              name="price"
-                              className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
+                            <div className="space-y-1">
+                              <Field
+                                placeholder="Enter Book Price"
+                                type="text"
+                                name="price"
+                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
                                                       text-gray-900 ring-1 placeholder:text-gray-400
                                                           sm:text-sm sm:leading-6"
-                            />
-
-                            <Field
-                              placeholder="Enter Book Quantity"
-                              type="text"
-                              name="qty"
-                              className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
+                              />
+                              <ErrorMessage
+                                name="price"
+                                className="absolute mx-6  text-red-500"
+                                component="div"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <Field
+                                placeholder="Enter Book Quantity"
+                                type="text"
+                                name="qty"
+                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
                                                       text-gray-900 ring-1 placeholder:text-gray-400
                                                           sm:text-sm sm:leading-6"
-                            />
+                              />
+                              <ErrorMessage
+                                name="qty"
+                                className="absolute mx-6  text-red-500"
+                                component="div"
+                              />
+                            </div>
                             <Field
                               as="select"
                               name="category"

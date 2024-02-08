@@ -1,6 +1,7 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
+import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import React, { Fragment, useRef } from 'react';
 
@@ -11,6 +12,13 @@ export default function EditOrSaveCategory({
   setCategoryToEdit,
   saveOrUpdateCategory,
 }) {
+  //Validation input
+  const categorySchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Category field is Required'),
+  });
   const cancelButtonRef = useRef(null);
 
   return (
@@ -58,35 +66,15 @@ export default function EditOrSaveCategory({
                         initialValues={{
                           name: categoryToEdit ? categoryToEdit.name : '',
                         }}
+                        validationSchema={categorySchema}
                         onSubmit={(values) => {
                           saveOrUpdateCategory(values);
                           setOpen(false);
                         }}
-                        //  validate={values => {
-
-                        //    const errors = {};
-
-                        //    if (!values.email) {
-
-                        //      errors.email = 'Required';
-
-                        //    } else if (
-
-                        //      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-
-                        //    ) {
-
-                        //      errors.email = 'Invalid email address';
-
-                        //    }
-
-                        //    return errors;
-
-                        //  }}
                       >
                         {({ isSubmitting }) => (
                           <Form>
-                            <div className="my-3">
+                            <div className="my-3 space-y-1">
                               <Field
                                 placeholder="Enter New Category"
                                 type="text"
@@ -96,7 +84,11 @@ export default function EditOrSaveCategory({
                                                           sm:text-sm sm:leading-6"
                               />
 
-                              <ErrorMessage name="email" component="div" />
+                              <ErrorMessage
+                                name="name"
+                                className="absolute text-red-500"
+                                component="div"
+                              />
                             </div>
                             <div className=" px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                               <button

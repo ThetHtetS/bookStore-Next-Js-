@@ -22,7 +22,9 @@ export default function Register() {
       .max(50, 'Too Long!')
       .required('Name is Required'),
     email: Yup.string().email().required('Email is required'),
-    password: Yup.string().required(' Please enter your password!'),
+    password: Yup.string()
+      .required(' Please enter your password!')
+      .min(8, 'Password must be at least 8 characters'),
     passwordConfirm: Yup.string().required(
       'Please enter your password confirm',
     ),

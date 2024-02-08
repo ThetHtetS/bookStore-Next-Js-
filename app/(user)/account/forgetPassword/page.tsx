@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Field, Form, Formik } from 'formik';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import * as Yup from 'yup';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { forgetPasswordAsync, useDispatch } from '@/lib/redux';
 
 export default function forgetPassword() {
@@ -9,6 +12,12 @@ export default function forgetPassword() {
   let [done, setDone] = useState(false);
   let [message, setMessage] = useState();
   let [loading, setLoading] = useState(false);
+  const MySwal = withReactContent(Swal);
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email().required('Email is required'),
+  });
+
   return (
     <div className="text-center mt-20">
       {!loading && !done && (
@@ -30,20 +39,28 @@ export default function forgetPassword() {
               initialValues={{
                 email: '',
               }}
+              validationSchema={validationSchema}
               onSubmit={(values: any) => {
                 setLoading(true);
                 dispatch(forgetPasswordAsync(values))
                   .unwrap()
-                  .then((res) => {
-                    if (res.status === 'success') {
-                      setDone(true);
-                      setMessage(res.message);
-                    }
-                    setLoading(false);
-                  });
+                  .then(
+                    (res) => {
+                      if (res.status === 'success') {
+                        setDone(true);
+                        setMessage(res.message);
+                      }
+                      setLoading(false);
+                    },
+
+                    (err) => {
+                      MySwal.fire(err.message);
+                      setLoading(false);
+                    },
+                  );
               }}
             >
-              {({ errors, touched }) => (
+              {() => (
                 <Form>
                   <div className="flex items-center gap-1">
                     <Field
@@ -53,6 +70,11 @@ export default function forgetPassword() {
                       className="block w-80 rounded-md border-0 py-1.5 pl-7 pr-20
                                                       text-gray-900 ring-1 placeholder:text-gray-400
                                                           sm:text-sm sm:leading-6"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      className="absolute mx-6  text-red-500"
+                      component="div"
                     />
                     <button
                       type="submit"

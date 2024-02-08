@@ -27,11 +27,14 @@ export default function IndexPage() {
   const books: Book[] = useSelector(selectBooks);
   const [bookToEdit, setBookToEdit] = useState(null);
   const categories: Category[] = useSelector(selectCategories);
+
+  //set default page number and number of document
   let [pagin, setPagin] = useState({
     page: 1,
     limit: 4,
   });
 
+  //Fetch Api data
   useEffect(() => {
     dispatch(loadAllBook(pagin))
       .unwrap()
@@ -39,17 +42,18 @@ export default function IndexPage() {
     dispatch(loadAllCategory());
   }, [pagin]);
 
+  //edit handler
   const btnEditHandler = (book: Book) => {
     setBookToEdit(book);
   };
+
+  //create book or update
   const saveOrUpdateBook = (book: Book) => {
     if (bookToEdit) {
-      // let category= book.category;
       const data = { ...book, _id: bookToEdit._id };
       dispatch(updateBook(data));
       setBookToEdit(null);
     } else {
-      //  let data={...book}
       dispatch(addBook(book));
     }
   };

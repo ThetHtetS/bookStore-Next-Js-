@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import {
   deleteMeAsync,
   selectOrders,
@@ -15,6 +17,7 @@ export default function page() {
   const dispatch = useDispatch();
   const router = useRouter();
   const token = localStorage.getItem('token');
+  const MySwal = withReactContent(Swal);
 
   if (!token) {
     router.push('/account/login');
@@ -33,6 +36,43 @@ export default function page() {
     router.push('/account/login');
   };
 
+  const deleteAccount = () => {
+    MySwal.fire({
+      title: 'Are you sure you want to delete your account',
+      text: 'Delete Account',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteMeAsync())
+          .unwrap()
+          .then((res) => {
+            MySwal.fire(res.message);
+            router.push('/');
+          });
+      }
+    });
+
+    // MySwal.fire({
+    //   title: 'Are you sure?',
+    //   text: 'Are you sure that you want to delete your account?',
+    //   icon: 'warning',
+    //   dangerMode: true,
+    // }).then((willDelete) => {
+    //   if (willDelete) {
+    //     dispatch(deleteMeAsync())
+    //       .unwrap()
+    //       .then((res) => {
+    //         MySwal.fire(res.message);
+    //         router.push('/');
+    //       });
+    //   }
+    // });
+  };
+
   return (
     <div>
       <div className="text-center">
@@ -48,14 +88,7 @@ export default function page() {
           </button>
           <button
             type="button"
-            onClick={() =>
-              dispatch(deleteMeAsync())
-                .unwrap()
-                .then((res) => {
-                  alert(res.message);
-                  router.push('/');
-                })
-            }
+            onClick={deleteAccount}
             className="bg-red-300 rounded-sm px-2 py-1 border"
           >
             Delete My Account
