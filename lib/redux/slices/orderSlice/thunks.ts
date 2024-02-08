@@ -40,8 +40,6 @@ export const updateOrder = createAppAsyncThunk(
 export const deleteOrder = createAppAsyncThunk(
   'order/deleteOrder',
   async (Order: Order, thunkApi) => {
-    console.log(Order);
-
     const deleteOrder = await deleteOrderApi(Order);
     console.log('Thunk Api ', thunkApi);
     console.log('Thunk response delete Order', deleteOrder);
@@ -54,7 +52,6 @@ export const deleteOrder = createAppAsyncThunk(
 export const getOrderById = createAppAsyncThunk(
   'order/getOrderById',
   async (Order: Order, thunkApi) => {
-    console.log(Order);
     const order = await getOrderByIdApi(Order);
     // console.log('Thunk Api ',thunkApi);
     // console.log('Thunk response delete Order',order);

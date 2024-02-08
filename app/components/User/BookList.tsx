@@ -19,7 +19,7 @@ export default function BooksList(props: {
               <img
                 alt="book cover"
                 src="https://novelbookstore.co/cdn/shop/files/NovelBookstore-461.jpg?v=1706426788&width=932"
-                className="md:w-auto w-28"
+                className="md:w-56 w-28"
               />
               <div className="mt-3">{item.title}</div>
               <div>

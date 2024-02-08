@@ -7,8 +7,10 @@ import {
   login,
   register,
   deleteMe,
+  forgetPasswordApi,
+  resetPasswordApi,
 } from '@/lib/redux/slices/authSlice/api';
-import exp from 'constants';
+//import exp from 'constants';
 
 export const loginAsync = createAppAsyncThunk(
   'auth/login',
@@ -53,6 +55,40 @@ export const RegisterAsync = createAppAsyncThunk(
     try {
       userResponse = await register(user);
       if (userResponse.status === 200) {
+        // thunkApi.dispatch(authSlice.actions.login(userResponse.data));
+        localStorage.setItem('token', userResponse.data.token);
+        localStorage.setItem('Uid', userResponse.data._id);
+        localStorage.setItem('username', userResponse.data.name);
+      }
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.response.data);
+    }
+
+    return userResponse.data;
+  },
+);
+
+export const forgetPasswordAsync = createAppAsyncThunk(
+  'auth/forgetPassword',
+  async (email: any, thunkApi) => {
+    let userResponse;
+    try {
+      userResponse = await forgetPasswordApi(email);
+    } catch (e) {
+      //console.log('Error case ', e.response);
+      return thunkApi.rejectWithValue(e.response.data);
+    }
+    return userResponse.data;
+  },
+);
+
+export const resetPasswordAsync = createAppAsyncThunk(
+  'auth/resetPassword',
+  async (data: any, thunkApi) => {
+    let userResponse;
+    try {
+      userResponse = await resetPasswordApi(data);
+      if (userResponse.status === 200) {
         thunkApi.dispatch(authSlice.actions.login(userResponse.data));
         localStorage.setItem('token', userResponse.data.token);
         localStorage.setItem('Uid', userResponse.data._id);
@@ -63,31 +99,9 @@ export const RegisterAsync = createAppAsyncThunk(
         return thunkApi.rejectWithValue(userResponse.data);
       }
     } catch (e) {
-      //
-    }
-
-    // return userResponse.data;
-  },
-);
-
-export const forgetPasswordAsync = createAppAsyncThunk(
-  'auth/forgetPassword',
-  async (email: any, thunkApi) => {
-    let userResponse;
-    try {
-      userResponse = await forgetPassword(email);
-
-      if (userResponse.status === 200) {
-        // thunkApi.dispatch(authSlice.actions.login(userResponse.data));
-        // window.localStorage.setItem('token', userResponse.data.token);
-        // localStorage.setItem('Uid', userResponse.data._id);
-        // localStorage.setItem('username', userResponse.data.name);
-      }
-    } catch (e) {
       //console.log('Error case ', e.response);
       return thunkApi.rejectWithValue(e.response.data);
     }
-
     return userResponse.data;
   },
 );

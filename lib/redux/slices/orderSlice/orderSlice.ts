@@ -61,7 +61,7 @@ export const orderSlice = createSlice({
       })
       .addCase(addNewOrder.fulfilled, (state, action) => {
         console.log('Extra addToDo reducer fullfilled ', action.payload);
-        state.orders.push(action.payload);
+        state.orders.push(action.payload.data.order);
       })
       .addCase(getOrderById.fulfilled, (state, action) => {
         console.log('Extra addToDo reducer fullfilled ', action.payload);

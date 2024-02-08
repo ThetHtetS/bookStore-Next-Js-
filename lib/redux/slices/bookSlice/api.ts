@@ -14,7 +14,7 @@ export const fetchAllBook = async (pagination) => {
 
 export const fetchBookByTitle = async (title) => {
   const result = await axios.get(`${API_URL}/books/title/${title}`);
-  const books = await result.data;
+  const books = await result.data.data.books;
   return books;
 };
 

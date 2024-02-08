@@ -11,7 +11,7 @@ export const fetchAllOrder = async () => {
 
 export const addOrderApi = async (Order: Order) => {
   const result = await axios.post(`${API_URL}/orders`, Order);
-  const data = await result.data.data.order;
+  const data = result.data;
   return data;
 };
 

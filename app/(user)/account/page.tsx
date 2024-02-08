@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   deleteMeAsync,
   selectOrders,
@@ -13,18 +13,16 @@ import { getOrderByUserId } from '@/lib/redux/slices/orderSlice/thunks';
 export default function page() {
   const yourOrder = useSelector(selectOrders);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const uid: string = localStorage.getItem('Uid') || 'something';
-    dispatch(getOrderByUserId(uid));
-  }, []);
-
   const router = useRouter();
   const token = localStorage.getItem('token');
 
   if (!token) {
     router.push('/account/login');
   }
+  useEffect(() => {
+    const uid: string = localStorage.getItem('Uid') || '';
+    dispatch(getOrderByUserId(uid));
+  }, []);
 
   const username = localStorage.getItem('username');
 
@@ -54,7 +52,6 @@ export default function page() {
               dispatch(deleteMeAsync())
                 .unwrap()
                 .then((res) => {
-                  console.log(res);
                   alert(res.message);
                   router.push('/');
                 })

@@ -10,11 +10,10 @@ import { getBookByTitle } from '@/lib/redux/slices/bookSlice/thunks';
 export default function Nav() {
   const pathname = usePathname();
   const cart = useSelector(selectCarts);
-  const [search, setSearch] = useState('');
   const [active, setActive] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
   const dispatch = useDispatch();
-  const user = 'hello';
+
   const isDark = false;
 
   const menuBtn = () => {
@@ -197,19 +196,18 @@ export default function Nav() {
             <div className="flex items-center gap-5">
               <Link
                 href="/"
-                className={`flex items-center ${pathname === '/' ? 'border-b-indigo-600 text-indigo-600' : ''}`}
+                className={`flex items-center ${pathname === '/' ? ' text-indigo-600' : ''}`}
               >
                 <span className=" text-primary">Home</span>
               </Link>
               <Link
                 href="/about"
-                className={`flex items-center ${pathname === '/about' ? 'border-indigo-600 text-indigo-600' : ''}`}
+                className={`flex items-center ${pathname === '/about' ? 'text-indigo-600' : ''}`}
               >
                 <span className=" text-primary">About</span>
               </Link>
-
               <Link
-                href="/admin/category"
+                href="/category"
                 className={`flex items-center ${pathname === '/category' ? 'border-indigo-600 text-indigo-600' : ''}`}
               >
                 <span className="text-primary">Category</span>
@@ -234,7 +232,7 @@ export default function Nav() {
                   />
                 </svg>
               </button>
-              <Link href="/account/login">
+              <Link href="/account">
                 <div className="">
                   {/* user icon */}
                   <svg

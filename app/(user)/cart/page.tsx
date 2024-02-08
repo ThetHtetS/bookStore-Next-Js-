@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import IsAuth from '@/app/components/auth/isAuth';
 import {
   cartSlice,
   selectBooks,
@@ -11,7 +12,7 @@ import {
 } from '@/lib/redux';
 import { loadAllBook } from '@/lib/redux/slices/bookSlice/thunks';
 
-export default function Cart() {
+function Cart() {
   const books = useSelector(selectBooks);
   const cart = useSelector(selectCarts);
   const dispatch = useDispatch();
@@ -165,3 +166,4 @@ export default function Cart() {
     </div>
   );
 }
+export default IsAuth(Cart);

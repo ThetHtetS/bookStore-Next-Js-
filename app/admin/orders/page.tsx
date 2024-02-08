@@ -94,18 +94,24 @@ export default function page() {
           </div>
         </div>
         <div className="px-3 mt-3">
-          <table className="table w-full px-2 text-left border-separate border-spacing-y-5">
-            <thead className=" bg-slate-200 border-spacing-y-40">
-              <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Status</th>
-                <th>Detail</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders &&
-                orders.map((order) => (
+          {!orders.length && (
+            <div className="text-red-400 text-center py-20">
+              {' '}
+              No Order result!{' '}
+            </div>
+          )}
+          {!!orders.length && (
+            <table className="table w-full px-2 text-left border-separate border-spacing-y-5">
+              <thead className=" bg-slate-200 border-spacing-y-40">
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
                   <tr className="border-b hover:bg-slate-200 py-2">
                     <td className="text-primary">{order.name}</td>
                     <td>{order.phone}</td>
@@ -130,26 +136,29 @@ export default function page() {
                     </td>
                   </tr>
                 ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          )}
         </div>
 
-        <div className="flex border-t border-b items-center justify-between px-4 py-3 sm:px-6">
-          <div className="flex flex-1 justify-between  ">
-            <a
-              href="/"
-              className="relative inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              Previous
-            </a>
-            <a
-              href="/"
-              className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              Next
-            </a>
+        {!!orders.length && (
+          <div className="flex border-t border-b items-center justify-between px-4 py-3 sm:px-6">
+            <div className="flex flex-1 justify-between  ">
+              <a
+                href="/"
+                className="relative inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Previous
+              </a>
+              <a
+                href="/"
+                className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Next
+              </a>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div />
     </div>
