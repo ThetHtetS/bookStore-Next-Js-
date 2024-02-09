@@ -1,4 +1,7 @@
 import React from 'react';
+
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import Book from '@/lib/redux/slices/bookSlice/book';
 
 export default function BooksList(props: {
@@ -9,9 +12,9 @@ export default function BooksList(props: {
   btnEditHandler: () => void;
 }) {
   const { books, setOpen, open, deleteHandler, btnEditHandler } = props;
-
+  const MySwal = withReactContent(Swal);
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 mx-auto gap-12">
+    <div className="pt-32 grid grid-cols-2  lg:grid-cols-4 mx-auto gap-16">
       {books.map((item) => (
         // var cat= categories.filter(cat=> cat._id== item.category)
         <div className="bg-white h-48 group mb-28 w-28 md:w-auto">
@@ -59,7 +62,21 @@ export default function BooksList(props: {
               <button
                 type="button"
                 aria-label="delete"
-                onClick={() => deleteHandler({ _id: item._id })}
+                onClick={() => {
+                  MySwal.fire({
+                    title: 'Are you sure you want to delete this book',
+                    text: 'Delete book',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      deleteHandler({ _id: item._id });
+                    }
+                  });
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -80,15 +97,6 @@ export default function BooksList(props: {
           </div>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={() => {
-          setOpen(!open);
-        }}
-        className=" border text-center md:py-44 w-25 md:w-auto pt-24"
-      >
-        Add New Book
-      </button>
     </div>
   );
 }

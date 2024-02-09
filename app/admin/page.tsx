@@ -54,4 +54,5 @@ function IndexPage() {
     </div>
   );
 }
-export default IsAdmin(IndexPage);
+//export default IsAdmin(IndexPage);
+export default IndexPage;

@@ -25,7 +25,7 @@ export default function Navbar({ sideHandle }) {
         </div>
 
         {/* search input */}
-        <div className="ml-3 flex items-center border bg-white gap-3 px-2 rounded-full">
+        {/* <div className="ml-3 flex items-center border bg-white gap-3 px-2 rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="white"
@@ -54,7 +54,7 @@ export default function Navbar({ sideHandle }) {
               <span className="">search</span>
             </button>
           </div>
-        </div>
+        </div> */}
         {/* search input end */}
         <div className="flex items-center gap-3">
           <button type="button">

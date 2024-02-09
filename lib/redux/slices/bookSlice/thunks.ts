@@ -7,7 +7,6 @@ import {
   getBookByIdApi,
   updateBookApi,
 } from '@/lib/redux/slices/bookSlice/api';
-
 import { bookSlice } from '@/lib/redux';
 import Book from './book';
 
@@ -37,9 +36,14 @@ export const getBookByTitle = createAppAsyncThunk(
 
 export const addBook = createAppAsyncThunk(
   'book/addBook',
-  async (Book: Book) => {
-    const newBook = await addBookApi(Book);
-    return newBook;
+  async (Book: Book, thunkApi) => {
+    let response;
+    try {
+      response = await addBookApi(Book);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.response.data);
+    }
+    return response;
   },
 );
 
@@ -47,23 +51,28 @@ export const updateBook = createAppAsyncThunk(
   'book/updateBook',
 
   async (Book: Book, thunkApi) => {
-    console.log('update Book thunks');
-    const updatedBook = await updateBookApi(Book);
+    let response;
+    try {
+      response = await await updateBookApi(Book);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.response.data);
+    }
     thunkApi.dispatch(bookSlice.actions.updateBook(updatedBook));
-    return updatedBook;
+    return response;
   },
 );
 
 export const deleteBook = createAppAsyncThunk(
   'book/deleteBook',
   async (Book: Book, thunkApi) => {
-    console.log(Book);
+    let response;
+    try {
+      response = await deleteBookApi(Book);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.response.data);
+    }
+    thunkApi.dispatch(bookSlice.actions.deleteBook(response));
 
-    const deleteBook = await deleteBookApi(Book);
-    console.log('Thunk Api ', thunkApi);
-    console.log('Thunk response delete Book ', deleteBook);
-    thunkApi.dispatch(bookSlice.actions.deleteBook(deleteBook));
-    // return thunkApi.rejectWithValue(deleteBook);
-    return deleteBook;
+    return response;
   },
 );

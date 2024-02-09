@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import NewOrUpdateBooks from '@/app/components/admin/NewOrUpdateBooks';
 import BooksList from '@/app/components/admin/bookList';
 import {
@@ -10,6 +12,7 @@ import {
   selectCategories,
   useDispatch,
   bookSlice,
+  getLength,
 } from '@/lib/redux';
 import Book from '@/lib/redux/slices/bookSlice/book';
 import {
@@ -27,7 +30,8 @@ export default function IndexPage() {
   const books: Book[] = useSelector(selectBooks);
   const [bookToEdit, setBookToEdit] = useState(null);
   const categories: Category[] = useSelector(selectCategories);
-
+  const [data, setData] = useState(); //no slice for this data
+  const MySwal = withReactContent(Swal);
   //set default page number and number of document
   let [pagin, setPagin] = useState({
     page: 1,
@@ -42,6 +46,15 @@ export default function IndexPage() {
     dispatch(loadAllCategory());
   }, [pagin]);
 
+  useEffect(() => {
+    dispatch(getLength())
+      .unwrap()
+      .then((res: Data) => setData(res));
+  }, []);
+
+  let totalPage =
+    (!!data && Math.floor((data.book * 1) / pagin.limit) + 1) || 1;
+
   //edit handler
   const btnEditHandler = (book: Book) => {
     setBookToEdit(book);
@@ -51,40 +64,62 @@ export default function IndexPage() {
   const saveOrUpdateBook = (book: Book) => {
     if (bookToEdit) {
       const data = { ...book, _id: bookToEdit._id };
-      dispatch(updateBook(data));
+      dispatch(updateBook(data))
+        .unwrap()
+        .then(
+          (res) => {
+            //  MySwal.fire(res.message);
+          },
+          (err) => {
+            MySwal.fire(err.message);
+          },
+        );
       setBookToEdit(null);
     } else {
-      dispatch(addBook(book));
+      dispatch(addBook(book))
+        .unwrap()
+        .then(
+          (res) => {
+            // MySwal.fire(res.message);
+          },
+          (err) => {
+            MySwal.fire(err.message);
+          },
+        );
     }
   };
 
   const deleteHandler = (data) => {
-    dispatch(deleteBook(data));
+    dispatch(deleteBook(data))
+      .unwrap()
+      .then(
+        (res) => {
+          //MySwal.fire(res.message);
+        },
+        (err) => {
+          MySwal.fire(err.message);
+        },
+      );
   };
 
   const next = () => {
-    setPagin({ page: pagin.page + 1, limit: 4 });
+    totalPage !== pagin.page && setPagin({ page: pagin.page + 1, limit: 4 });
   };
   const previous = () => {
-    setPagin({ page: pagin.page - 1, limit: 4 });
+    pagin.page !== 1 && setPagin({ page: pagin.page - 1, limit: 4 });
   };
 
   return (
-    <div className="pt-3 pb-3 px-16 md:px-8 h-screen ">
-      <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-        <div className="flex flex-1 justify-between  ">
-          <div
-            onClick={previous}
-            className={`relative inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
-          >
-            Previous
-          </div>
-          <div
-            onClick={next}
-            className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  `}
-          >
-            Next
-          </div>
+    <div className="pt-3 pb-3 px-16 md:px-8 h-screen -pb-20 ">
+      <div className="lg:absolute lg:right-10 lg:top-20  ">
+        <div
+          type="button"
+          onClick={() => {
+            setOpen(!open);
+          }}
+          className="bg-green-500 text-white text-lg ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  "
+        >
+          Create+
         </div>
       </div>
       <BooksList
@@ -94,6 +129,27 @@ export default function IndexPage() {
         setOpen={setOpen}
         books={books}
       />
+
+      <div className="flex items-center justify-center gap-3 md:-ml-12 lg:absolute lg:bottom-12 lg:right-1/3  ">
+        <div
+          onClick={previous}
+          className={`relative text-xl inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
+        >
+          &lt;&lt;&lt;
+        </div>
+        <div>
+          page
+          {' ' + pagin.page + ' '}
+          of {!!data && ' ' + totalPage + ' '}
+        </div>
+        <div
+          onClick={next}
+          className={`relative ml-3 text-xl inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  `}
+        >
+          &gt;&gt;&gt;
+        </div>
+      </div>
+
       <NewOrUpdateBooks
         open={open}
         setOpen={setOpen}
