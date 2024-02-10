@@ -75,6 +75,7 @@ export default function NewOrUpdateBooks(props: {
                       </Dialog.Title>
                       <Formik
                         initialValues={{
+                          photo: null,
                           title: bookToEdit ? bookToEdit.title : '',
                           category: bookToEdit
                             ? bookToEdit.category
@@ -84,12 +85,25 @@ export default function NewOrUpdateBooks(props: {
                         }}
                         validationSchema={bookSchema}
                         onSubmit={(values) => {
+                          console.log(values);
+
                           saveOrUpdateBook(values);
                           setOpen(false);
                         }}
                       >
-                        {({ isSubmitting }) => (
+                        {({ isSubmitting, setFieldValue }) => (
                           <Form className="space-y-8">
+                            <input
+                              id="file"
+                              name="photo"
+                              type="file"
+                              onChange={(event) => {
+                                setFieldValue(
+                                  'photo',
+                                  event.currentTarget.files[0],
+                                );
+                              }}
+                            />
                             <div className="space-y-1">
                               <Field
                                 placeholder="Enter Book Title"

@@ -14,8 +14,8 @@ import Order from './order';
 
 export const loadAllOrder = createAppAsyncThunk(
   'order/loadAllOrder',
-  async () => {
-    const data = await fetchAllOrder();
+  async (pagination) => {
+    const data = await fetchAllOrder(pagination);
     return data;
   },
 );
@@ -77,10 +77,10 @@ export const getOrderByDateRange = createAppAsyncThunk(
   },
 );
 
-export const getOrderByStatus = createAppAsyncThunk(
-  'order/getOrderByStatus',
-  async (status) => {
-    const order = await getOrderByStatusApi(status);
-    return order;
-  },
-);
+// export const getOrderByStatus = createAppAsyncThunk(
+//   'order/getOrderByStatus',
+//   async (status) => {
+//     const order = await getOrderByStatusApi(status);
+//     return order;
+//   },
+// );

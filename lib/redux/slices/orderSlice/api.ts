@@ -3,8 +3,18 @@ import { API_URL } from '@/app/setting/API';
 import Order from './order';
 // const axios = require('axios');
 
-export const fetchAllOrder = async () => {
-  const result = await axios.get(`${API_URL}/orders`);
+export const fetchAllOrder = async (pagination) => {
+  let result;
+  if (pagination.status === 'All') {
+    result = await axios.get(
+      `${API_URL}/orders?page=${pagination.page}&limit=${pagination.limit}`,
+    );
+  } else {
+    result = await axios.get(
+      `${API_URL}/orders?status=${pagination.status}&page=${pagination.page}&limit=${pagination.limit}`,
+    );
+  }
+
   const data = await result.data.data.orders;
   return data;
 };
@@ -48,14 +58,18 @@ export const getOrderByDateRangeApi = async (date) => {
   return data;
 };
 
-export const getOrderByStatusApi = async (status) => {
-  let result;
-  if (status === 'All') {
-    result = await axios.get(`${API_URL}/orders`);
-  } else {
-    result = await axios.get(`${API_URL}/orders?status=${status}`);
-  }
+// export const getOrderByStatusApi = async (Query) => {
+//   let result;
+//   if (Query.status === 'All') {
+//     result = await axios.get(
+//       `${API_URL}/orders?page=${Query.page}&limit=${Query.limit}`,
+//     );
+//   } else {
+//     result = await axios.get(
+//       `${API_URL}/orders?status=${Query.status}&page=${Query.page}&limit=${Query.limit}`,
+//     );
+//   }
 
-  const data = await result.data.data.orders;
-  return data;
-};
+//   const data = await result.data.data.orders;
+//   return data;
+// };

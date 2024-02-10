@@ -28,6 +28,8 @@ export default function IndexPage() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const books: Book[] = useSelector(selectBooks);
+  console.log(books, '///////');
+
   const [bookToEdit, setBookToEdit] = useState(null);
   const categories: Category[] = useSelector(selectCategories);
   const [data, setData] = useState(); //no slice for this data

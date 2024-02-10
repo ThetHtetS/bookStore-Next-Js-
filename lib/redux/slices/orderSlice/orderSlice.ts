@@ -75,10 +75,10 @@ export const orderSlice = createSlice({
         console.log('Extra addToDo reducer fullfilled ', action.payload);
         state.orders = action.payload;
       })
-      .addCase(getOrderByStatus.fulfilled, (state, action) => {
-        console.log('Extra reducer fullfilled ', action.payload);
-        state.orders = action.payload;
-      })
+      // .addCase(getOrderByStatus.fulfilled, (state, action) => {
+      //   console.log('Extra reducer fullfilled ', action.payload);
+      //   state.orders = action.payload;
+      // })
       .addCase(updateOrder.fulfilled, (state, action) => {
         console.log('Extra update order reducer fullfilled ', action.payload);
         state.orders = action.payload;

@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { id: number } }) {
 
   return (
     <div className=" h-screen md:px-16 ">
-      <div className="bg-white md:w-2/5 border h-60 mt-10  shadow px-4 pt-3">
+      <div className="bg-white md:w-2/5 border h-52 mt-10  shadow px-4 pt-3">
         <h1 className="font-bold text-2xl">Order Info</h1>
         {!!order.length && (
           <div className=" pt-6 space-y-3">

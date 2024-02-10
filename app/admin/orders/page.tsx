@@ -6,14 +6,13 @@ import DatePicker from 'react-datepicker';
 import {
   getOrderByDateRange,
   loadAllOrder,
-  getOrderByStatus,
 } from '@/lib/redux/slices/orderSlice/thunks';
 import {
   selectBooks,
-  selectOrder_items,
   selectOrders,
   useDispatch,
   useSelector,
+  getLength,
 } from '@/lib/redux';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -22,10 +21,27 @@ export default function page() {
   const [endDate, setEndDate] = useState(new Date());
   const orders = useSelector(selectOrders);
   const dispatch = useDispatch();
+  const [data, setData] = useState(); //no slice for this data
+  const [status, setStatus] = useState('All');
+  let [pagin, setPagin] = useState({
+    page: 1,
+    limit: 4,
+  });
+
+  // const getOrderByStatusHandle = (status: String) => {
+  //   let q = { status, ...pagin };
+  //   dispatch(getOrderByStatus(q));
+  // };
+  useEffect(() => {
+    let q = { status, ...pagin };
+    dispatch(loadAllOrder(q)).unwrap();
+    //.then((data) => {});
+  }, [pagin, status]);
 
   useEffect(() => {
-    dispatch(loadAllOrder()).unwrap();
-    //.then((data) => {});
+    dispatch(getLength())
+      .unwrap()
+      .then((res: Data) => setData(res));
   }, []);
 
   const getOrderByDate = () => {
@@ -33,8 +49,14 @@ export default function page() {
     dispatch(getOrderByDateRange(data));
   };
 
-  const getOrderByStatusHandle = (status: String) => {
-    dispatch(getOrderByStatus(status));
+  let totalPage =
+    (!!data && Math.floor((data.order * 1) / pagin.limit) + 1) || 1;
+
+  const next = () => {
+    totalPage !== pagin.page && setPagin({ page: pagin.page + 1, limit: 4 });
+  };
+  const previous = () => {
+    pagin.page !== 1 && setPagin({ page: pagin.page - 1, limit: 4 });
   };
 
   return (
@@ -43,7 +65,7 @@ export default function page() {
         <div className="flex justify-between items-center my-2 px-3">
           <select
             onChange={(e) => {
-              getOrderByStatusHandle(e.target.value);
+              setStatus(e.target.value);
             }}
             name="cars"
             id="cars"
@@ -115,7 +137,11 @@ export default function page() {
                   <tr className="border-b hover:bg-slate-200 py-2">
                     <td className="text-primary">{order.name}</td>
                     <td>{order.phone}</td>
-                    <td>{order.status}</td>
+                    <td
+                      className={`${order.status === 'Pending' ? 'text-red-500' : 'text-green-500'}`}
+                    >
+                      {order.status}
+                    </td>
                     <td aria-label="orderDetail">
                       <Link href={`/admin/orders/${order._id}`}>
                         <svg
@@ -142,20 +168,23 @@ export default function page() {
         </div>
 
         {!!orders.length && (
-          <div className="flex border-t border-b items-center justify-between px-4 py-3 sm:px-6">
-            <div className="flex flex-1 justify-between  ">
-              <a
-                href="/"
-                className="relative inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Previous
-              </a>
-              <a
-                href="/"
-                className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Next
-              </a>
+          <div className="flex items-center justify-center gap-3 md:-ml-12 lg:absolute lg:bottom-12 lg:right-1/3  ">
+            <div
+              onClick={previous}
+              className={`relative text-xl inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
+            >
+              &lt;&lt;&lt;
+            </div>
+            <div>
+              page
+              {' ' + pagin.page + ' '}
+              of {!!data && ' ' + totalPage + ' '}
+            </div>
+            <div
+              onClick={next}
+              className={`relative ml-3 text-xl inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  `}
+            >
+              &gt;&gt;&gt;
             </div>
           </div>
         )}

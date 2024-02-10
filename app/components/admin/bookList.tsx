@@ -3,6 +3,7 @@ import React from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import Book from '@/lib/redux/slices/bookSlice/book';
+import Image from 'next/image';
 
 export default function BooksList(props: {
   books: Book[];
@@ -20,7 +21,8 @@ export default function BooksList(props: {
         <div className="bg-white h-48 group mb-28 w-28 md:w-auto">
           <img
             alt="book cover"
-            src="https://novelbookstore.co/cdn/shop/files/NovelBookstore-461.jpg?v=1706426788&width=932"
+            // src="https://cdn.myanmarseo.com/file/client-cdn/novelbookcentre/wp-content/uploads/2024/01/w6.png"
+            src={`http://localhost:4000/images/books/${item.photo}`}
             className="w-40 "
           />
           <div className="mt-3">{item.title}</div>
