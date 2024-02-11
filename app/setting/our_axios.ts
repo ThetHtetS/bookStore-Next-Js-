@@ -3,8 +3,8 @@ import { API_URL } from './API';
 const axios = require('axios');
 // console.log("axios default ",axios.defaults)
 
-//axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+//axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
 // let store:any;
 const token = localStorage.getItem('token');
