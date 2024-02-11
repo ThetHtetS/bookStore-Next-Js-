@@ -34,7 +34,15 @@ export default function BooksList(props: {
             </Link>
             <button
               type="button"
-              onClick={() => addToCart({ _id: id++, book: item._id, qty: 1 })}
+              onClick={() =>
+                addToCart({
+                  _id: id++,
+                  book: item._id,
+                  title: item.title,
+                  qty: 1,
+                  price: item.price,
+                })
+              }
               className="border rounded px-1 py-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
             >
               Add to Cart

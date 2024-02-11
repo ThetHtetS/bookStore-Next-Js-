@@ -25,7 +25,14 @@ function Cart() {
 
   const increaseQty = (data: any) => {
     const qtynew = data.qty + 1;
-    const newData = { _id: data._id, book: data.book, qty: qtynew };
+    const newData = {
+      _id: data._id,
+      book: data.book,
+      title: data.title,
+      price: data.price,
+      qty: qtynew,
+    };
+
     dispatch(cartSlice.actions.updateCart(newData));
   };
 
@@ -36,7 +43,13 @@ function Cart() {
     } else {
       qtynew = data.qty - 1;
     }
-    const newData = { _id: data._id, book: data.book, qty: qtynew };
+    const newData = {
+      _id: data._id,
+      book: data.book,
+      title: data.title,
+      price: data.price,
+      qty: qtynew,
+    };
     dispatch(cartSlice.actions.updateCart(newData));
   };
 
@@ -62,15 +75,15 @@ function Cart() {
             </tr>
           </thead>
           {cart.map((item) => {
-            const book = books.filter((el) => el._id === item.book);
+            // const book = books.filter((el) => el._id === item.book);
 
-            subtotal += book[0].price * item.qty;
+            subtotal += item.price * 1 * item.qty;
 
             return (
               <tbody className="">
                 <tr className="">
                   <td className="border-b pb-5">
-                    {book[0].title}
+                    {item.title}
                     <div className="pt-1">
                       <button
                         type="button"
@@ -81,7 +94,7 @@ function Cart() {
                       </button>
                     </div>
                   </td>
-                  <td className="border-b pb-5">{book[0].price}</td>
+                  <td className="border-b pb-5">{item.price}</td>
                   <td className="border-b pb-5">
                     <div className="-ml-2 flex items-center gap-1">
                       <button
@@ -92,6 +105,8 @@ function Cart() {
                             _id: item._id,
                             book: item.book,
                             qty: item.qty,
+                            title: item.title,
+                            price: item.price,
                           })
                         }
                       >
@@ -119,6 +134,8 @@ function Cart() {
                             _id: item._id,
                             book: item.book,
                             qty: item.qty,
+                            title: item.title,
+                            price: item.price,
                           })
                         }
                       >
@@ -139,7 +156,7 @@ function Cart() {
                       </button>
                     </div>
                   </td>
-                  <td className="border-b pb-5">{item.qty * book[0].price}</td>
+                  <td className="border-b pb-5">{item.qty * item.price}</td>
                 </tr>
               </tbody>
             );

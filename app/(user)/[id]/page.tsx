@@ -85,7 +85,6 @@ export default function Indexpage({ params }: { params: { id: number } }) {
               <Formik
                 initialValues={{
                   review: '',
-                  //  rating: rating,
                 }}
                 //  validationSchema={ReviewSchema}
                 onSubmit={(values: any) => {
