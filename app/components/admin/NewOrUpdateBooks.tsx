@@ -75,7 +75,8 @@ export default function NewOrUpdateBooks(props: {
                       </Dialog.Title>
                       <Formik
                         initialValues={{
-                          photo: null,
+                          author: bookToEdit ? bookToEdit.author : '',
+                          photo: bookToEdit ? bookToEdit.photo : null,
                           title: bookToEdit ? bookToEdit.title : '',
                           category: bookToEdit
                             ? bookToEdit.category
@@ -85,8 +86,6 @@ export default function NewOrUpdateBooks(props: {
                         }}
                         validationSchema={bookSchema}
                         onSubmit={(values) => {
-                          console.log(values);
-
                           saveOrUpdateBook(values);
                           setOpen(false);
                         }}
@@ -120,7 +119,22 @@ export default function NewOrUpdateBooks(props: {
                                 component="div"
                               />
                             </div>
+                            <div className="space-y-1">
+                              <Field
+                                placeholder="Enter Author name"
+                                type="text"
+                                name="author"
+                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
+                                                      text-gray-900 ring-1 placeholder:text-gray-400
+                                                          sm:text-sm sm:leading-6"
+                              />
 
+                              <ErrorMessage
+                                name="author"
+                                className="absolute mx-6  text-red-500"
+                                component="div"
+                              />
+                            </div>
                             <div className="space-y-1">
                               <Field
                                 placeholder="Enter Book Price"

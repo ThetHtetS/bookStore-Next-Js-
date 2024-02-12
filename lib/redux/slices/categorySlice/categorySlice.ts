@@ -29,8 +29,6 @@ export const categorySlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     loadAllCategory: (state, action: PayloadAction<Category[]>) => {
-      console.log('run');
-
       state.categories = action.payload;
     },
     addCategory: (state, action: PayloadAction<Category>) => {
@@ -38,7 +36,7 @@ export const categorySlice = createSlice({
     },
     deleteCategory: (state, action: PayloadAction<Category>) => {
       state.categories = state.categories.filter(
-        (item) => item._id != action.payload._id,
+        (item) => item._id !== action.payload._id,
       );
     },
     updateCategory: (state, action: PayloadAction<Category>) => {

@@ -3,7 +3,7 @@ import Book from './book';
 import {
   addBook,
   deleteBook,
-  getBookById,
+  getBook,
   getBookByTitle,
   loadAllBook,
   updateBook,
@@ -22,20 +22,6 @@ const initialState: BookSliceState = {
     //     category: 1,
     //     qty: 50
     // },
-    // {
-    //     _id: 2,
-    //     title: "Freedom from Fear",
-    //     price: 9800,
-    //     category: 2,
-    //     qty: 10
-    // },
-    // {
-    //     _id: 3,
-    //     title: "သမိုင်း",
-    //     price: 9800,
-    //     category: 2,
-    //     qty: 5
-    // }
   ],
 };
 
@@ -70,7 +56,7 @@ export const bookSlice = createSlice({
       .addCase(getBookByTitle.fulfilled, (state, action) => {
         state.books = action.payload;
       })
-      .addCase(getBookById.fulfilled, (state, action) => {
+      .addCase(getBook.fulfilled, (state, action) => {
         state.books = action.payload;
       })
       .addCase(addBook.fulfilled, (state, action) => {

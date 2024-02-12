@@ -1,18 +1,23 @@
 import Link from 'next/link';
 import React from 'react';
 import Book from '@/lib/redux/slices/bookSlice/book';
+import Cart from '@/lib/redux/slices/cartSlice/cart';
 
 export default function BooksList(props: {
   books: Book[];
   addToCart: (book: object) => void;
+  cart: Cart[];
 }) {
-  let id = 0;
   const { books, addToCart } = props;
-
+  let id = 0;
+  let da = false;
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 mx-auto gap-3 md:gap-12 pl-12">
       {!!books.length &&
         books.map((item) => (
+          //da = !!cart && cart.some((it) => it.book === item._id);
+          //  console.log(da);
+
           // var cat= categories.filter(cat=> cat._id== item.category)
           <div className=" bg-white h-auto group mb-12 mt-4 md:w-auto w-32">
             <Link href={`/${item._id}`}>
@@ -32,17 +37,18 @@ export default function BooksList(props: {
                 {item.category.name}
               </div>
             </Link>
+
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
                 addToCart({
                   _id: id++,
                   book: item._id,
                   title: item.title,
                   qty: 1,
                   price: item.price,
-                })
-              }
+                });
+              }}
               className="border rounded px-1 py-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
             >
               Add to Cart

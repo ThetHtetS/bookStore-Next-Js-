@@ -26,6 +26,7 @@ export default function BooksList(props: {
             className="w-40 "
           />
           <div className="mt-3">{item.title}</div>
+          <div>{item.author}</div>
           <div>
             {item.price}
             <span className="text-bold">MMK</span>

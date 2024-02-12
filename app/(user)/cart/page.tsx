@@ -1,27 +1,14 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
 import IsAuth from '@/app/components/auth/isAuth';
-import {
-  cartSlice,
-  selectBooks,
-  selectCarts,
-  useDispatch,
-  useSelector,
-} from '@/lib/redux';
-import { loadAllBook } from '@/lib/redux/slices/bookSlice/thunks';
+import { cartSlice, selectCarts, useDispatch, useSelector } from '@/lib/redux';
 
 function Cart() {
-  const books = useSelector(selectBooks);
   const cart = useSelector(selectCarts);
   const dispatch = useDispatch();
   let subtotal = 0;
-
-  useEffect(() => {
-    dispatch(loadAllBook()).unwrap();
-    // .then((data) => console.log('Response from thunk ', data));
-  }, []);
 
   const increaseQty = (data: any) => {
     const qtynew = data.qty + 1;
@@ -32,7 +19,6 @@ function Cart() {
       price: data.price,
       qty: qtynew,
     };
-
     dispatch(cartSlice.actions.updateCart(newData));
   };
 

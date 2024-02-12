@@ -1,13 +1,20 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { cartSlice, selectBooks, useDispatch, useSelector } from '@/lib/redux';
+import {
+  cartSlice,
+  selectBooks,
+  selectCarts,
+  useDispatch,
+  useSelector,
+} from '@/lib/redux';
 import Book from '@/lib/redux/slices/bookSlice/book';
 import BooksList from '../components/User/BookList';
 import { loadAllBook } from '@/lib/redux/slices/bookSlice/thunks';
 
 function Indexpage() {
   const dispatch = useDispatch();
+  //let cart = useSelector(selectCarts);
   let [loading, setLoading] = useState(true);
   let [pagin, setPagin] = useState({
     page: 1,
@@ -23,6 +30,9 @@ function Indexpage() {
   }, [pagin]);
 
   const addToCart = (items: any) => {
+    //let data = cart.filter((item) => item.book === items.book);
+    //console.log(data);
+
     dispatch(cartSlice.actions.addCart(items));
   };
 

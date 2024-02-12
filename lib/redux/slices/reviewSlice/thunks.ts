@@ -1,17 +1,17 @@
 import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
-// import {fetchAllMovie} from "@/lib/redux/slices/movieSlice/movieApi";
+
 import { reviewSlice } from '@/lib/redux';
 import {
   deleteReview,
-  fetchAllReviewByMovieId,
+  getReviews,
   saveReview,
   updateReview,
 } from '@/lib/redux/slices/reviewSlice/api';
 
 export const getAllReviewByBookAsync = createAppAsyncThunk(
   'review/getAllReviewByMovieAsync',
-  async (movieId: string, thunkApi) => {
-    const reviews = await fetchAllReviewByMovieId(movieId);
+  async (bookId: string, thunkApi) => {
+    const reviews = await getReviews(bookId);
     thunkApi.dispatch(reviewSlice.actions.loadAllReviewByMovie(reviews));
     return reviews;
   },

@@ -15,7 +15,7 @@ export const fetchAllOrder = async (pagination) => {
     );
   }
 
-  const data = await result.data.data.orders;
+  const data = await result.data.orders;
   return data;
 };
 
@@ -27,26 +27,26 @@ export const addOrderApi = async (Order: Order) => {
 
 export const updateOrderApi = async (Order: Order) => {
   const result = await axios.put(`${API_URL}/orders/${Order._id}`, Order);
-  const data = await result.data.data.order;
+  const data = await result.data.order;
 
   return data;
 };
 
 export const deleteOrderApi = async (Order: Order) => {
   const result = await axios.delete(`${API_URL}/orders/${Order._id}`);
-  const data = await result.data.data.order;
+  const data = await result.data.order;
   return data;
 };
 
 export const getOrderByIdApi = async (Order: Order) => {
   const result = await axios.get(`${API_URL}/orders/${Order._id}`);
-  const data = await result.data.data.order;
+  const data = await result.data.order;
   return data;
 };
 
 export const getOrderByUserIdApi = async (id: any) => {
   const result = await axios.get(`${API_URL}/users/${id}/orders`);
-  const data = await result.data.data.orders;
+  const data = await result.data.orders;
   return data;
 };
 
@@ -54,7 +54,7 @@ export const getOrderByDateRangeApi = async (date) => {
   const result = await axios.get(
     `${API_URL}/orders?createdAt[gte]=${date.start}&createdAt[lt]=${date.end}`,
   );
-  const data = await result.data.data.orders;
+  const data = await result.data.orders;
   return data;
 };
 

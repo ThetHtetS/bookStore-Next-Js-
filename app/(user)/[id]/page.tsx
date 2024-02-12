@@ -14,7 +14,7 @@ import {
   useDispatch,
   useSelector,
 } from '@/lib/redux';
-import { getBookById } from '@/lib/redux/slices/bookSlice/thunks';
+import { getBook } from '@/lib/redux/slices/bookSlice/thunks';
 import Review from '@/lib/redux/slices/reviewSlice/Review';
 
 export default function Indexpage({ params }: { params: { id: number } }) {
@@ -23,23 +23,19 @@ export default function Indexpage({ params }: { params: { id: number } }) {
   const reviews = useSelector(selectReviews);
   const [hidden, setHidden] = useState(true);
   const [rating, setRating] = useState(0);
+
   useEffect(() => {
     const data = { _id: params.id };
-    dispatch(getBookById(data)).unwrap();
+    dispatch(getBook(data)).unwrap();
     // .then((data) => {});
     dispatch(getAllReviewByBookAsync(data));
   }, []);
 
-  // const fetchReview = () => {
-  //   const data = { _id: params.id };
-  //   dispatch(getAllReviewByBookAsync(data));
-  // };
-
   const saveReview = (newReview: Review) => {
-    const uid = localStorage.getItem('Uid');
+    //const uid = localStorage.getItem('Uid');
     const data = {
       ...newReview,
-      uid,
+      //  uid,
       book: params.id,
       rating: rating,
     };
@@ -52,7 +48,7 @@ export default function Indexpage({ params }: { params: { id: number } }) {
   };
   return (
     <div>
-      {book.length && (
+      {!!book.length && (
         <div className="flex gap-12 px-24 pt-4">
           <div className="text-center md:w-80">
             <img
@@ -172,7 +168,9 @@ export default function Indexpage({ params }: { params: { id: number } }) {
 
                     <button
                       type="button"
-                      onClick={() => deleteHandler({ _id: item._id })}
+                      onClick={() =>
+                        deleteHandler({ _id: item._id, book: params.id })
+                      }
                       className={`absolute right-2 -top-8 rounded-lg bg-slate-50 border px-2 py-1 ${hidden ? 'hidden' : ''}`}
                     >
                       Delete

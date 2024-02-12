@@ -1,11 +1,11 @@
 import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
 import {
   addBookApi,
-  deleteBookApi,
-  fetchAllBook,
-  fetchBookByTitle,
-  getBookByIdApi,
+  getBooksApi,
+  getBookApi,
   updateBookApi,
+  deleteBookApi,
+  fetchBookByTitle,
 } from '@/lib/redux/slices/bookSlice/api';
 import { bookSlice } from '@/lib/redux';
 import Book from './book';
@@ -13,15 +13,15 @@ import Book from './book';
 export const loadAllBook = createAppAsyncThunk(
   'book/fetchAllBook',
   async (pagination) => {
-    const Book = await fetchAllBook(pagination);
+    const Book = await getBooksApi(pagination);
     return Book;
   },
 );
 
-export const getBookById = createAppAsyncThunk(
+export const getBook = createAppAsyncThunk(
   'book/getBookById',
   async (Book: object) => {
-    const book = await getBookByIdApi(Book);
+    const book = await getBookApi(Book);
     return book;
   },
 );
@@ -57,7 +57,7 @@ export const updateBook = createAppAsyncThunk(
     } catch (e) {
       return thunkApi.rejectWithValue(e.response.data);
     }
-    thunkApi.dispatch(bookSlice.actions.updateBook(updatedBook));
+    thunkApi.dispatch(bookSlice.actions.updateBook(response));
     return response;
   },
 );
