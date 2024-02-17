@@ -3,23 +3,18 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import Category from './category';
 import {
   addCategory,
-  deleteCategory,
+  //deleteCategory,
   loadAllCategory,
   updateCategory,
 } from './thunks';
 
-/* Instruments */
-// import { incrementAsync } from './thunks'
 export interface CategorySliceState {
   categories: Category[];
 }
 
 const initialState: CategorySliceState = {
   categories: [
-    {
-      _id: 1,
-      name: 'Business',
-    },
+    //
   ],
 };
 
@@ -47,29 +42,23 @@ export const categorySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadAllCategory.pending, (state, action) => {
-        console.log('Extra reducer Payload ', action.payload);
-      })
+      //  .addCase(loadAllCategory.pending, (state, action) => {})
       .addCase(loadAllCategory.fulfilled, (state, action) => {
-        console.log('Extra reducer fullfilled ', action.payload);
         state.categories = action.payload;
       })
       .addCase(addCategory.fulfilled, (state, action) => {
-        console.log('Extra addToDo reducer fullfilled ', action.payload);
         state.categories.push(action.payload);
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
-        // console.log('Extra delete todo reducer reject ',action.payload);
-        // state.categories = state.categories.map(cat=> cat._id== action.payload._id? action.payload.name : cat)
         state.categories = state.categories.map((item) =>
-          item._id == action.payload._id ? action.payload : item,
+          item._id === action.payload._id ? action.payload : item,
         );
-      })
-      .addCase(deleteCategory.fulfilled, (state, action) => {
-        console.log('Extra delete todo reducer reject ', action.payload);
-      })
-      .addCase(deleteCategory.rejected, (state, action) => {
-        console.log('Extra delete todo reducer reject ', action.payload);
       });
+    // .addCase(deleteCategory.fulfilled, (state, action) => {
+    //   console.log('Extra delete todo reducer reject ', action.payload);
+    // })
+    // .addCase(deleteCategory.rejected, (state, action) => {
+    //   console.log('Extra delete todo reducer reject ', action.payload);
+    // });
   },
 });

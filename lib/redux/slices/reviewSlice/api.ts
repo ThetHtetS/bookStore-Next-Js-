@@ -16,8 +16,8 @@ export const saveReview = async (review: any) => {
   return reviews;
 };
 export const updateReview = async (review: any) => {
-  const result = await axios.put(
-    `${API_URL}/books/${bookId._id}/reviews`,
+  const result = await axios.patch(
+    `${API_URL}/books/${review.book}/reviews/${review._id}`,
     review,
   );
   const reviews = await result.data.review;
@@ -25,6 +25,7 @@ export const updateReview = async (review: any) => {
 };
 export const deleteReview = async (review: any) => {
   const result = await axios.delete(
+    //`${API_URL}/reviews/${review._id}`,
     `${API_URL}/books/${review.book}/reviews/${review._id}`,
   );
   const reviews = await result.data.review;

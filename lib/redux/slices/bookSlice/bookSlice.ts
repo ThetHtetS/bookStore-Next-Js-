@@ -66,12 +66,12 @@ export const bookSlice = createSlice({
         state.books = state.books.map((item) =>
           item._id === action.payload._id ? action.payload : item,
         );
-      })
-      .addCase(deleteBook.fulfilled, (state, action) => {
-        console.log('Extra delete todo reducer reject ', action.payload);
-      })
-      .addCase(deleteBook.rejected, (state, action) => {
-        console.log('Extra delete todo reducer reject ', action.payload);
       });
+    // .addCase(deleteBook.fulfilled, (state, action) => {
+    //   console.log('Extra delete todo reducer reject ', action.payload);
+    // })
+    // .addCase(deleteBook.rejected, (state, action) => {
+    //   console.log('Extra delete todo reducer reject ', action.payload);
+    // });
   },
 });

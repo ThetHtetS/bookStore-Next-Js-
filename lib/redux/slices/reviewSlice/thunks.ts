@@ -9,7 +9,7 @@ import {
 } from '@/lib/redux/slices/reviewSlice/api';
 
 export const getAllReviewByBookAsync = createAppAsyncThunk(
-  'review/getAllReviewByMovieAsync',
+  'review/getAllReviewByBookAsync',
   async (bookId: string, thunkApi) => {
     const reviews = await getReviews(bookId);
     thunkApi.dispatch(reviewSlice.actions.loadAllReviewByMovie(reviews));
@@ -31,11 +31,9 @@ export const updateReviewAsync = createAppAsyncThunk(
   async (review: any, thunkApi) => {
     const reviewResponse = await updateReview(review);
 
-    if (reviewResponse.status == 200) {
-      thunkApi.dispatch(reviewSlice.actions.updateReview(reviewResponse.data));
-    }
+    thunkApi.dispatch(reviewSlice.actions.addReview(reviewResponse));
 
-    return reviewResponse.data;
+    return reviewResponse;
   },
 );
 export const deleteReviewAsync = createAppAsyncThunk(
