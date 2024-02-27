@@ -10,8 +10,10 @@ import { categorySlice } from '@/lib/redux';
 import Category from './category';
 
 export const loadAllCategory = createAppAsyncThunk(
-  'category/fetchAllCategory',
+  'category/loadAllCategory',
   async () => {
+    console.log('run thunks');
+
     const category = await getCategoriesApi();
     return category;
   },

@@ -41,17 +41,16 @@ export default function IndexPage() {
 
   //Fetch Api data
   useEffect(() => {
-    dispatch(loadAllBook(pagin))
-      .unwrap()
-      .then((data) => console.log('Response from thunk ', data));
+    dispatch(loadAllBook(pagin)).unwrap();
+    //.then((data) => console.log('Response from thunk ', data));
     dispatch(loadAllCategory());
   }, [pagin]);
 
-  useEffect(() => {
-    dispatch(getLength())
-      .unwrap()
-      .then((res: Data) => setData(res));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getLength())
+  //     .unwrap()
+  //     .then((res: Data) => setData(res));
+  // }, []);
 
   let totalPage =
     (!!data && Math.floor((data.book * 1) / pagin.limit) + 1) || 1;

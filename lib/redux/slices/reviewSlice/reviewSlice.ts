@@ -27,7 +27,7 @@ export const reviewSlice = createSlice({
       console.log(action.payload, '////update');
 
       state.reviews = state.reviews.map((review) =>
-        review._id == action.payload._id ? action.payload : review,
+        review._id === action.payload._id ? action.payload : review,
       );
     },
     deleteReview: (state, action: PayloadAction<Review>) => {

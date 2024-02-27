@@ -5,6 +5,7 @@ import { API_URL } from '@/app/setting/API';
 export const getCategoriesApi = async () => {
   const result = await axios.get(`${API_URL}/categories`);
   const categories = await result.data.categories;
+  console.log(result.data);
   return categories;
 };
 
@@ -19,6 +20,7 @@ export const addCategoryApi = async (category: Category) => {
   //     body : JSON.stringify(category)
   // });
   const categoryJson = await result.data.category;
+
   return categoryJson;
 };
 

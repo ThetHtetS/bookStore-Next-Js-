@@ -44,6 +44,8 @@ export const categorySlice = createSlice({
     builder
       //  .addCase(loadAllCategory.pending, (state, action) => {})
       .addCase(loadAllCategory.fulfilled, (state, action) => {
+        console.log('run extra reducer');
+
         state.categories = action.payload;
       })
       .addCase(addCategory.fulfilled, (state, action) => {
