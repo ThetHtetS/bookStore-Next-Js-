@@ -27,20 +27,20 @@ export default function Indexpage({ params }: { params: { id: number } }) {
   const bookId = params.id;
   const [reviewToEdit, setReviewToEdit] = useState(null);
   const [rating, setRating] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const data = { _id: params.id };
-    dispatch(getBook(data)).unwrap();
-    // .then((data) => {});
+
+    dispatch(getBook(data))
+      .unwrap()
+      .then((data) => setLoading(false));
     dispatch(getAllReviewByBookAsync(data));
   }, []);
 
   const saveOrUpdateReview = (newReview: Review) => {
-    //const uid = localStorage.getItem('Uid');
-
     const data = {
       ...newReview,
-      //  uid,
       book: params.id,
       rating: rating,
     };
@@ -56,7 +56,7 @@ export default function Indexpage({ params }: { params: { id: number } }) {
   };
   return (
     <div>
-      <BookDetail book={book} />
+      {!loading && <BookDetail book={book} />}
       <div className="grid place-items-center border-t mt-12 pt-6">
         {!reviews.some(
           (item) => item.uid._id === localStorage.getItem('Uid'),
@@ -79,6 +79,7 @@ export default function Indexpage({ params }: { params: { id: number } }) {
         setRating={setRating}
         rating={rating}
       />
+      hello
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function BooksList(props: {
 }) {
   const { books, addToCart } = props;
   let id = 0;
-  let da = false;
+
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 mx-auto gap-3 md:gap-12 pl-12">
       {!!books.length &&
@@ -23,19 +23,25 @@ export default function BooksList(props: {
             <Link href={`/${item._id}`}>
               <img
                 alt="book cover"
-                src="https://novelbookstore.co/cdn/shop/files/NovelBookstore-461.jpg?v=1706426788&width=932"
+                src={`http://localhost:4000/images/books/${item.photo}`}
                 className="md:w-56 w-28"
               />
-              <div className="mt-3">{item.title}</div>
+              <div className="mt-3 font-bold text-lg">{item.title}</div>
+              <div className="font-bold italic">
+                by
+                {` ${item.author}`}
+              </div>
               <div>
                 {item.price}
-                <span className="text-bold">MMK</span>
+                <span className="text-bold"> MMK</span>
               </div>
-              <div className="">{item.qty === 0 ? 'No Stock' : 'In Stock'}</div>
-              <div className="flex justify-between">
+              <div className="">
+                {item.stock === 0 ? 'No Stock' : 'In Stock'}
+              </div>
+              {/* <div className="flex justify-between">
                 {/* {cat.map(c=>(<div>{c.name}</div>))}   */}
-                {item.category.name}
-              </div>
+              {/* {item.category.name} */}
+              {/* </div> */}
             </Link>
 
             <button
@@ -49,7 +55,7 @@ export default function BooksList(props: {
                   price: item.price,
                 });
               }}
-              className="border rounded px-1 py-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
+              className="border bg-yellow-200 mt-2 rounded px-1 py-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
             >
               Add to Cart
             </button>

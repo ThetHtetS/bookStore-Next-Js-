@@ -8,7 +8,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // let store:any;
 const token = localStorage.getItem('token');
-console.log(token);
+//console.log(token);
 
 // export const injectStore = (_store:any) => {
 //     store = _store;

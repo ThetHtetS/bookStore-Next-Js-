@@ -4,7 +4,7 @@ import Book from './book';
 
 export const getBooksApi = async (pagination) => {
   const result = await axios.get(
-    `${API_URL}/books?page=${pagination.page}&limit=${pagination.limit}`,
+    `${API_URL}/books?page=${pagination.page}&limit=${pagination.limit}&fields=title,author,photo,price`,
   );
   return result;
 };

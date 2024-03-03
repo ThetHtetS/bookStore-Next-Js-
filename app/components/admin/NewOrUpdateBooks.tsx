@@ -25,6 +25,8 @@ export default function NewOrUpdateBooks(props: {
     setBookToEdit,
     saveOrUpdateBook,
   } = props;
+  console.log(bookToEdit, 'booktoedit');
+
   const bookSchema = Yup.object().shape({
     title: Yup.string()
       .min(2, 'Too Short!')
@@ -84,14 +86,13 @@ export default function NewOrUpdateBooks(props: {
                         initialValues={{
                           title: bookToEdit ? bookToEdit.title : '',
                           author: bookToEdit ? bookToEdit.author : '',
-                          photo: bookToEdit ? bookToEdit.photo : null,
+                          photo: null,
                           releaseYear: bookToEdit
                             ? new Date(bookToEdit.releaseYear)
                             : new Date(),
                           repleaseTimes: bookToEdit
                             ? bookToEdit.releaseTimes
                             : null,
-
                           buyingPrice: bookToEdit ? bookToEdit.buyingPrice : '',
                           category: bookToEdit
                             ? bookToEdit.category
@@ -189,19 +190,12 @@ export default function NewOrUpdateBooks(props: {
                                 value={values.releaseYear}
                                 onChange={(date) => {
                                   setFieldValue('releaseYear', date);
-                                  console.log(date);
                                 }}
                                 selected={values.releaseYear}
                                 className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
                                 text-gray-900 ring-1 placeholder:text-gray-400
                                     sm:text-sm sm:leading-6"
                               />
-                              {/* <DatePicker
-                                dateFormat="MMMM yyyy"
-                                showMonthYearPicker
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
-                              /> */}
                             </div>
                             <Field
                               as="select"

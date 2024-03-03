@@ -8,11 +8,8 @@ import BooksList from '@/app/components/admin/bookList';
 import {
   selectBooks,
   useSelector,
-  getCategoryById,
   selectCategories,
   useDispatch,
-  bookSlice,
-  getLength,
 } from '@/lib/redux';
 import Book from '@/lib/redux/slices/bookSlice/book';
 import {
@@ -28,13 +25,13 @@ export default function IndexPage() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const books: Book[] = useSelector(selectBooks);
-
   const [bookToEdit, setBookToEdit] = useState(null);
   const categories: Category[] = useSelector(selectCategories);
   const [data, setData] = useState(); //no slice for this data
   const MySwal = withReactContent(Swal);
+
   //set default page number and number of document
-  let [pagin, setPagin] = useState({
+  const [pagin, setPagin] = useState({
     page: 1,
     limit: 4,
   });
@@ -132,7 +129,7 @@ export default function IndexPage() {
       />
 
       {!!books.length && (
-        <div className="flex items-center justify-center gap-3 md:-ml-12 lg:absolute lg:bottom-12 lg:right-1/3  ">
+        <div className="flex items-center justify-center gap-3 md:-ml-12 lg:absolute lg:bottom-4 lg:right-1/3  ">
           <div
             onClick={previous}
             className={`relative text-xl inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
