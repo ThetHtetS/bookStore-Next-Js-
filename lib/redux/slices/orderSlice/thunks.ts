@@ -41,8 +41,7 @@ export const deleteOrder = createAppAsyncThunk(
   'order/deleteOrder',
   async (Order: Order, thunkApi) => {
     const deleteOrder = await deleteOrderApi(Order);
-    console.log('Thunk Api ', thunkApi);
-    console.log('Thunk response delete Order', deleteOrder);
+
     thunkApi.dispatch(orderSlice.actions.deleteOrder(deleteOrder));
     // return thunkApi.rejectWithValue(deleteOrder);
     return deleteOrder;

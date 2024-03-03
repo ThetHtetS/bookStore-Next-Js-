@@ -3,7 +3,9 @@
 import { Dialog, Transition } from '@headlessui/react';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import React, { Fragment, useRef } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import React, { Fragment, useRef, useState } from 'react';
 import Category from '@/lib/redux/slices/categorySlice/category';
 import Book from '@/lib/redux/slices/bookSlice/book';
 
@@ -28,8 +30,13 @@ export default function NewOrUpdateBooks(props: {
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Name is Required'),
+    author: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Author is Required'),
+    buyingPrice: Yup.number().required('buying price is required'),
     price: Yup.number().required('Price is required'),
-    qty: Yup.number().required('Product quantity is necessary!'),
+    stock: Yup.number().required('Product quantity is necessary!'),
   });
   const cancelButtonRef = useRef(null);
   return (
@@ -75,14 +82,22 @@ export default function NewOrUpdateBooks(props: {
                       </Dialog.Title>
                       <Formik
                         initialValues={{
+                          title: bookToEdit ? bookToEdit.title : '',
                           author: bookToEdit ? bookToEdit.author : '',
                           photo: bookToEdit ? bookToEdit.photo : null,
-                          title: bookToEdit ? bookToEdit.title : '',
+                          releaseYear: bookToEdit
+                            ? new Date(bookToEdit.releaseYear)
+                            : new Date(),
+                          repleaseTimes: bookToEdit
+                            ? bookToEdit.releaseTimes
+                            : null,
+
+                          buyingPrice: bookToEdit ? bookToEdit.buyingPrice : '',
                           category: bookToEdit
                             ? bookToEdit.category
                             : categories[0]._id,
                           price: bookToEdit ? bookToEdit.price : '',
-                          qty: bookToEdit ? bookToEdit.qty : '',
+                          stock: bookToEdit ? bookToEdit.stock : '',
                         }}
                         validationSchema={bookSchema}
                         onSubmit={(values) => {
@@ -90,7 +105,7 @@ export default function NewOrUpdateBooks(props: {
                           setOpen(false);
                         }}
                       >
-                        {({ isSubmitting, setFieldValue }) => (
+                        {({ isSubmitting, values, setFieldValue }) => (
                           <Form className="space-y-8">
                             <input
                               id="file"
@@ -137,6 +152,22 @@ export default function NewOrUpdateBooks(props: {
                             </div>
                             <div className="space-y-1">
                               <Field
+                                placeholder="Buying Price"
+                                type="text"
+                                name="buyingPrice"
+                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
+                                                      text-gray-900 ring-1 placeholder:text-gray-400
+                                                          sm:text-sm sm:leading-6"
+                              />
+
+                              <ErrorMessage
+                                name="buyingPrice"
+                                className="absolute mx-6  text-red-500"
+                                component="div"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <Field
                                 placeholder="Enter Book Price"
                                 type="text"
                                 name="price"
@@ -150,17 +181,52 @@ export default function NewOrUpdateBooks(props: {
                                 component="div"
                               />
                             </div>
+                            <div className="space-y-1 ">
+                              <DatePicker
+                                dateFormat="MMMM yyyy"
+                                showMonthYearPicker
+                                name="releaseYear"
+                                value={values.releaseYear}
+                                onChange={(date) => {
+                                  setFieldValue('releaseYear', date);
+                                  console.log(date);
+                                }}
+                                selected={values.releaseYear}
+                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
+                                text-gray-900 ring-1 placeholder:text-gray-400
+                                    sm:text-sm sm:leading-6"
+                              />
+                              {/* <DatePicker
+                                dateFormat="MMMM yyyy"
+                                showMonthYearPicker
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                              /> */}
+                            </div>
+                            <Field
+                              as="select"
+                              name="releaseTimes"
+                              className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
+                                                      text-gray-900 ring-1 placeholder:text-gray-400
+                                                          sm:text-sm sm:leading-6"
+                            >
+                              <option value="First">First</option>
+                              <option value="Second">Second</option>
+                              <option value="Third">Third</option>
+                              <option value="Fourth">Fourth</option>
+                            </Field>
+
                             <div className="space-y-1">
                               <Field
                                 placeholder="Enter Book Quantity"
                                 type="text"
-                                name="qty"
+                                name="stock"
                                 className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20
                                                       text-gray-900 ring-1 placeholder:text-gray-400
                                                           sm:text-sm sm:leading-6"
                               />
                               <ErrorMessage
-                                name="qty"
+                                name="stock"
                                 className="absolute mx-6  text-red-500"
                                 component="div"
                               />

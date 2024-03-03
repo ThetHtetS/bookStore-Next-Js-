@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import {
   getOrderByDateRange,
   loadAllOrder,
@@ -14,7 +15,6 @@ import {
   useSelector,
   getLength,
 } from '@/lib/redux';
-import 'react-datepicker/dist/react-datepicker.css';
 
 export default function page() {
   const [startDate, setStartDate] = useState(new Date());
@@ -28,10 +28,6 @@ export default function page() {
     limit: 4,
   });
 
-  // const getOrderByStatusHandle = (status: String) => {
-  //   let q = { status, ...pagin };
-  //   dispatch(getOrderByStatus(q));
-  // };
   useEffect(() => {
     let q = { status, ...pagin };
     dispatch(loadAllOrder(q)).unwrap();

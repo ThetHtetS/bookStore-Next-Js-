@@ -12,9 +12,12 @@ import Book from './book';
 
 export const loadAllBook = createAppAsyncThunk(
   'book/fetchAllBook',
-  async (pagination) => {
-    const Book = await getBooksApi(pagination);
-    return Book;
+  async (pagination, thunkApi) => {
+    const response = await getBooksApi(pagination);
+    if (response.status === 200) {
+      thunkApi.dispatch(bookSlice.actions.loadAllBook(response.data.books));
+    }
+    return response;
   },
 );
 

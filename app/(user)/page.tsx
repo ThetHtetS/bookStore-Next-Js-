@@ -48,27 +48,32 @@ function Indexpage() {
       {loading && (
         <div className="font-bold text-center py-auto"> just a sec...</div>
       )}
-      {!loading && (
-        <>
-          <BooksList books={books} addToCart={addToCart} />
-          <div className=" px-4 py-3 sm:px-6 ">
-            <div className="flex items-center justify-between  ">
-              <div
-                onClick={previous}
-                className={`relative inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
-              >
-                Previous
-              </div>
-              <div
-                onClick={next}
-                className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  `}
-              >
-                Next
+      {!books.length && (
+        <div className="font-bold text-center py-auto pt-6"> No Book founds</div>
+
+      )}
+      {!!books.length && !loading &&
+        (
+          <>
+            <BooksList books={books} addToCart={addToCart} />
+            <div className=" px-4 py-3 sm:px-6 ">
+              <div className="flex items-center justify-between  ">
+                <div
+                  onClick={previous}
+                  className={`relative inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
+                >
+                  Previous
+                </div>
+                <div
+                  onClick={next}
+                  className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  `}
+                >
+                  Next
+                </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
+          </>,
+        )}
     </div>
   );
 }

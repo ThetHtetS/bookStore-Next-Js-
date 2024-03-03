@@ -6,12 +6,11 @@ export const getBooksApi = async (pagination) => {
   const result = await axios.get(
     `${API_URL}/books?page=${pagination.page}&limit=${pagination.limit}`,
   );
-  return result.data.books;
+  return result;
 };
 
 export const fetchBookByTitle = async (title) => {
   const result = await axios.get(`${API_URL}/books/title/${title}`);
-
   return result.data.books;
 };
 

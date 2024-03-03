@@ -50,9 +50,9 @@ export const bookSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(loadAllBook.fulfilled, (state, action) => {
-        state.books = action.payload;
-      })
+      // .addCase(loadAllBook.fulfilled, (state, action) => {
+      //   state.books = action.payload;
+      // })
       .addCase(getBookByTitle.fulfilled, (state, action) => {
         state.books = action.payload;
       })

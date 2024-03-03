@@ -41,19 +41,15 @@ export default function IndexPage() {
 
   //Fetch Api data
   useEffect(() => {
-    dispatch(loadAllBook(pagin)).unwrap();
-    //.then((data) => console.log('Response from thunk ', data));
+    dispatch(loadAllBook(pagin))
+      .unwrap()
+      .then((res) => {
+        setData(res.data.total);
+      });
     dispatch(loadAllCategory());
   }, [pagin]);
 
-  // useEffect(() => {
-  //   dispatch(getLength())
-  //     .unwrap()
-  //     .then((res: Data) => setData(res));
-  // }, []);
-
-  let totalPage =
-    (!!data && Math.floor((data.book * 1) / pagin.limit) + 1) || 1;
+  let totalPage = (!!data && Math.floor((data * 1) / pagin.limit) + 1) || 1;
 
   //edit handler
   const btnEditHandler = (book: Book) => {
@@ -113,15 +109,20 @@ export default function IndexPage() {
     <div className="pt-3 pb-3 px-16 md:px-8 h-screen -pb-20 ">
       <div className="lg:absolute lg:right-10 lg:top-20  ">
         <div
-          type="button"
           onClick={() => {
             setOpen(!open);
           }}
+          type="button"
           className="bg-green-500 text-white text-lg ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  "
         >
           Create+
         </div>
       </div>
+      {!books.length && (
+        <div className="h-80 flex items-center justify-center font-bold">
+          No book found!!
+        </div>
+      )}
       <BooksList
         btnEditHandler={btnEditHandler}
         deleteHandler={deleteHandler}
@@ -130,34 +131,38 @@ export default function IndexPage() {
         books={books}
       />
 
-      <div className="flex items-center justify-center gap-3 md:-ml-12 lg:absolute lg:bottom-12 lg:right-1/3  ">
-        <div
-          onClick={previous}
-          className={`relative text-xl inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
-        >
-          &lt;&lt;&lt;
+      {!!books.length && (
+        <div className="flex items-center justify-center gap-3 md:-ml-12 lg:absolute lg:bottom-12 lg:right-1/3  ">
+          <div
+            onClick={previous}
+            className={`relative text-xl inline-flex items-center rounded-md border border-gray-300  px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 `}
+          >
+            &lt;&lt;&lt;
+          </div>
+          <div>
+            page
+            {' ' + pagin.page + ' '}
+            of {!!data && ' ' + totalPage + ' '}
+          </div>
+          <div
+            onClick={next}
+            className={`relative ml-3 text-xl inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  `}
+          >
+            &gt;&gt;&gt;
+          </div>
         </div>
-        <div>
-          page
-          {' ' + pagin.page + ' '}
-          of {!!data && ' ' + totalPage + ' '}
-        </div>
-        <div
-          onClick={next}
-          className={`relative ml-3 text-xl inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  `}
-        >
-          &gt;&gt;&gt;
-        </div>
-      </div>
+      )}
 
-      <NewOrUpdateBooks
-        open={open}
-        setOpen={setOpen}
-        categories={categories}
-        bookToEdit={bookToEdit}
-        setBookToEdit={setBookToEdit}
-        saveOrUpdateBook={saveOrUpdateBook}
-      />
+      {categories.length && (
+        <NewOrUpdateBooks
+          open={open}
+          setOpen={setOpen}
+          categories={categories}
+          bookToEdit={bookToEdit}
+          setBookToEdit={setBookToEdit}
+          saveOrUpdateBook={saveOrUpdateBook}
+        />
+      )}
     </div>
   );
 }
