@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useRef } from 'react';
+//import { MdChevronLeft, MdChevronRight } from 'react-icons';
+
 import Book from '@/lib/redux/slices/bookSlice/book';
 import Cart from '@/lib/redux/slices/cartSlice/cart';
 
@@ -8,23 +10,52 @@ export default function BooksList(props: {
   addToCart: (book: object) => void;
   cart: Cart[];
 }) {
+  const container = useRef();
   const { books, addToCart } = props;
   let id = 0;
+  const slideLeft = () => {
+    container.current.scrollLeft -= 300;
+  };
+
+  const slideRight = () => {
+    container.current.scrollLeft += 300;
+  };
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 mx-auto gap-3 md:gap-12 pl-12">
-      {!!books.length &&
-        books.map((item) => (
-          //da = !!cart && cart.some((it) => it.book === item._id);
-          //  console.log(da);
-
-          // var cat= categories.filter(cat=> cat._id== item.category)
-          <div className=" bg-white h-auto group mb-12 mt-4 md:w-auto w-32">
+    <div className="flex items-center gap-3 px-12 py-3">
+      <button
+        aria-label="slideLeft"
+        type="submit"
+        className="opacity-50 cursor-pointer hover:opacity-100 text-2xl"
+        onClick={slideLeft}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-12 h-12"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 19.5 8.25 12l7.5-7.5"
+          />
+        </svg>
+      </button>
+      <div
+        ref={container}
+        id="container"
+        className="flex gap-10 overflow-x-scroll scroll whitespace-nowrap scroll-smooth no-scrollbar"
+      >
+        {books.map((item) => (
+          <div className="min-w-[200px] group ">
             <Link href={`/${item._id}`}>
               <img
+                className="  p-2 cursor-pointer"
                 alt="book cover"
                 src={`http://localhost:4000/images/books/${item.photo}`}
-                className="md:w-56 w-28"
               />
               <div className="mt-3 font-bold text-lg">{item.title}</div>
               <div className="font-bold italic">
@@ -61,6 +92,28 @@ export default function BooksList(props: {
             </button>
           </div>
         ))}
+      </div>
+      <button
+        type="submit"
+        aria-label="slideRight"
+        className="opacity-50 cursor-pointer hover:opacity-100 text-2xl"
+        onClick={slideRight}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-12 h-12"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m8.25 4.5 7.5 7.5-7.5 7.5"
+          />
+        </svg>
+      </button>
     </div>
   );
 }

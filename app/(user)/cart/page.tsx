@@ -7,6 +7,7 @@ import { cartSlice, selectCarts, useDispatch, useSelector } from '@/lib/redux';
 
 function Cart() {
   const cart = useSelector(selectCarts);
+
   const dispatch = useDispatch();
   let subtotal = 0;
 

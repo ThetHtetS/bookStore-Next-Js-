@@ -10,10 +10,12 @@ import {
 } from './thunks';
 
 export interface BookSliceState {
+  topFive: Book[];
   books: Book[];
 }
 
 const initialState: BookSliceState = {
+  topFive: [],
   books: [
     // {
     //     _id: 1,
@@ -32,6 +34,9 @@ export const bookSlice = createSlice({
   reducers: {
     loadAllBook: (state, action: PayloadAction<Book[]>) => {
       state.books = action.payload;
+    },
+    loadTopFiveBook: (state, action: PayloadAction<Book[]>) => {
+      state.topFive = action.payload;
     },
     addBook: (state, action: PayloadAction<Book>) => {
       state.books.push(action.payload);

@@ -7,6 +7,7 @@ import {
   cartSlice,
   selectBooks,
   selectCarts,
+  selectTopFive,
   useDispatch,
   useSelector,
 } from '@/lib/redux';
@@ -15,10 +16,10 @@ import Order from '@/lib/redux/slices/orderSlice/order';
 
 export default function Page() {
   const cart = useSelector(selectCarts);
-  const books = useSelector(selectBooks);
+  const books = useSelector(selectTopFive);
   const router = useRouter();
   const dispatch = useDispatch();
-  let [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   let subtotal = 0;
 
   const orde = cart.map((item) => ({ book: item.book, qty: item.qty }));
@@ -125,22 +126,24 @@ export default function Page() {
             </Formik>
           </div>
           <div className=" md:w-2/5  pt-20 px-20 ">
-            {cart.map((item) => {
-              const book = books.filter((ele) => ele._id === item.book);
-              subtotal += book[0].price * item.qty;
+            {!!cart.length &&
+              !!books.length &&
+              cart.map(async (item) => {
+                const book = await books.filter((ele) => ele._id === item.book);
+                subtotal += book[0].price * item.qty;
 
-              return (
-                <div className="flex justify-between w-full bg-white py-5 px-3  border-t">
-                  <div className=" flex gap-1">
-                    <div>{book[0].title}</div>
-                    <div className=" bg-slate-200 rounded-full px-2">
-                      {item.qty}
+                return (
+                  <div className="flex justify-between w-full bg-white py-5 px-3  border-t">
+                    <div className=" flex gap-1">
+                      <div>{book[0].title}</div>
+                      <div className=" bg-slate-200 rounded-full px-2">
+                        {item.qty}
+                      </div>
                     </div>
+                    <div className=" ">{item.qty * book[0].price}</div>
                   </div>
-                  <div className=" ">{item.qty * book[0].price}</div>
-                </div>
-              );
-            })}
+                );
+              })}
 
             <div className="flex justify-between w-full bg-white pt-3 px-3 border-t">
               <div className="">Subtotal:</div>

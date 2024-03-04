@@ -5,12 +5,13 @@ import {
   cartSlice,
   selectBooks,
   selectCarts,
+  selectTopFive,
   useDispatch,
   useSelector,
 } from '@/lib/redux';
 import Book from '@/lib/redux/slices/bookSlice/book';
 import BooksList from '../components/User/BookList';
-import { loadAllBook } from '@/lib/redux/slices/bookSlice/thunks';
+import { getTopFive, loadAllBook } from '@/lib/redux/slices/bookSlice/thunks';
 
 function Indexpage() {
   const dispatch = useDispatch();
@@ -21,12 +22,17 @@ function Indexpage() {
     limit: 4,
   });
   const books: Book[] = useSelector(selectBooks);
+  const topFive: Book[] = useSelector(selectTopFive);
+  console.log(books);
+  console.log(topFive);
+
   useEffect(() => {
     dispatch(loadAllBook(pagin))
       .unwrap()
       .then(() => {
         setLoading(false);
       });
+    dispatch(getTopFive());
   }, [pagin]);
 
   const addToCart = (items: any) => {
@@ -44,15 +50,27 @@ function Indexpage() {
   };
 
   return (
-    <div className="mx-4">
+    <div className="mx-4 w-auto pb-[200px]">
       {loading && (
         <div className="font-bold text-center py-auto"> just a sec...</div>
       )}
       {!books.length && (
-        <div className="font-bold text-center py-auto pt-6"> No Book founds</div>
-
+        <div className="font-bold text-center py-auto pt-6">
+          {' '}
+          No Book founds
+        </div>
       )}
-      {!!books.length && !loading &&
+      <div className="">
+        <div className="bg-blue-900 text-center py-3 text-white">
+          Best Popular
+        </div>
+        <div className="">
+          {!!topFive.length && !loading && (
+            <BooksList books={topFive} addToCart={addToCart} />
+          )}
+        </div>
+      </div>
+      {/* {!!books.length && !loading &&
         (
           <>
             <BooksList books={books} addToCart={addToCart} />
@@ -73,7 +91,7 @@ function Indexpage() {
               </div>
             </div>
           </>,
-        )}
+        )} */}
     </div>
   );
 }

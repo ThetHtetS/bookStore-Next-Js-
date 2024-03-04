@@ -79,7 +79,6 @@ export default function Indexpage({ params }: { params: { id: number } }) {
         setRating={setRating}
         rating={rating}
       />
-      hello
     </div>
   );
 }

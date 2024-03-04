@@ -6,6 +6,7 @@ import {
   updateBookApi,
   deleteBookApi,
   fetchBookByTitle,
+  getTopFiveApi,
 } from '@/lib/redux/slices/bookSlice/api';
 import { bookSlice } from '@/lib/redux';
 import Book from './book';
@@ -16,6 +17,18 @@ export const loadAllBook = createAppAsyncThunk(
     const response = await getBooksApi(pagination);
     if (response.status === 200) {
       thunkApi.dispatch(bookSlice.actions.loadAllBook(response.data.books));
+    }
+    return response;
+  },
+);
+
+export const getTopFive = createAppAsyncThunk(
+  'book/getTopFive',
+  async (t, thunkApi) => {
+    const response = await getTopFiveApi();
+    if (response.status === 200) {
+      //thunkApi.dispatch(bookSlice.actions.loadTopFiveBook(response.data.books));
+      thunkApi.dispatch(bookSlice.actions.loadTopFiveBook(response.data.books));
     }
     return response;
   },

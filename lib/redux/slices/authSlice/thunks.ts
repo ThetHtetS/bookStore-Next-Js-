@@ -1,5 +1,4 @@
 import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
-
 import { authSlice } from '@/lib/redux';
 import {
   getAllUser,
@@ -54,12 +53,13 @@ export const RegisterAsync = createAppAsyncThunk(
     let userResponse;
     try {
       userResponse = await register(user);
-      if (userResponse.status === 200) {
-        // thunkApi.dispatch(authSlice.actions.login(userResponse.data));
-        localStorage.setItem('token', userResponse.data.token);
-        localStorage.setItem('Uid', userResponse.data._id);
-        localStorage.setItem('username', userResponse.data.name);
-      }
+      console.log(userResponse.status);
+      // if (userResponse.status === 201) {
+      // thunkApi.dispatch(authSlice.actions.login(userResponse.data));
+      localStorage.setItem('token', userResponse.data.token);
+      localStorage.setItem('Uid', userResponse.data._id);
+      localStorage.setItem('username', userResponse.data.name);
+      // }
     } catch (e) {
       return thunkApi.rejectWithValue(e.response.data);
     }
