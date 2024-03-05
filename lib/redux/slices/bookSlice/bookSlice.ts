@@ -12,19 +12,13 @@ import {
 export interface BookSliceState {
   topFive: Book[];
   books: Book[];
+  bestSeller: Book[];
 }
 
 const initialState: BookSliceState = {
   topFive: [],
-  books: [
-    // {
-    //     _id: 1,
-    //     title: "Political Orders",
-    //     price: 9800,
-    //     category: 1,
-    //     qty: 50
-    // },
-  ],
+  books: [],
+  bestSeller: [],
 };
 
 export const bookSlice = createSlice({
@@ -37,6 +31,9 @@ export const bookSlice = createSlice({
     },
     loadTopFiveBook: (state, action: PayloadAction<Book[]>) => {
       state.topFive = action.payload;
+    },
+    loadBestSellerBook: (state, action: PayloadAction<Book[]>) => {
+      state.bestSeller = action.payload;
     },
     addBook: (state, action: PayloadAction<Book>) => {
       state.books.push(action.payload);

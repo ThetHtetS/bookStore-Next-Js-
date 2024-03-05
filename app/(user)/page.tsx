@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   cartSlice,
+  selectBestSeller,
   selectBooks,
   selectCarts,
   selectTopFive,
@@ -11,7 +12,11 @@ import {
 } from '@/lib/redux';
 import Book from '@/lib/redux/slices/bookSlice/book';
 import BooksList from '../components/User/BookList';
-import { getTopFive, loadAllBook } from '@/lib/redux/slices/bookSlice/thunks';
+import {
+  getBestSeller,
+  getTopFive,
+  loadAllBook,
+} from '@/lib/redux/slices/bookSlice/thunks';
 
 function Indexpage() {
   const dispatch = useDispatch();
@@ -23,8 +28,7 @@ function Indexpage() {
   });
   const books: Book[] = useSelector(selectBooks);
   const topFive: Book[] = useSelector(selectTopFive);
-  console.log(books);
-  console.log(topFive);
+  const bestSeller: Book[] = useSelector(selectBestSeller);
 
   useEffect(() => {
     dispatch(loadAllBook(pagin))
@@ -33,6 +37,7 @@ function Indexpage() {
         setLoading(false);
       });
     dispatch(getTopFive());
+    dispatch(getBestSeller());
   }, [pagin]);
 
   const addToCart = (items: any) => {
@@ -50,7 +55,7 @@ function Indexpage() {
   };
 
   return (
-    <div className="mx-4 w-auto pb-[200px]">
+    <div className="mx-4 w-auto pb-[50px]">
       {loading && (
         <div className="font-bold text-center py-auto"> just a sec...</div>
       )}
@@ -60,13 +65,23 @@ function Indexpage() {
           No Book founds
         </div>
       )}
-      <div className="">
+      <div className="py-1">
         <div className="bg-blue-900 text-center py-3 text-white">
           Best Popular
         </div>
         <div className="">
           {!!topFive.length && !loading && (
             <BooksList books={topFive} addToCart={addToCart} />
+          )}
+        </div>
+      </div>
+      <div className="py-3">
+        <div className="bg-green-900 text-center py-3 text-white">
+          Best Seller
+        </div>
+        <div className="">
+          {!!bestSeller.length && !loading && (
+            <BooksList books={bestSeller} addToCart={addToCart} />
           )}
         </div>
       </div>

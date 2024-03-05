@@ -10,7 +10,11 @@ export const getBooksApi = async (pagination) => {
 };
 
 export const getTopFiveApi = async () => {
-  const result = await axios.get(`${API_URL}/books/topFive`);
+  const result = await axios.get(`${API_URL}/books/top-five`);
+  return result;
+};
+export const getBestSellerApi = async () => {
+  const result = await axios.get(`${API_URL}/orders/best-seller/2024`);
   return result;
 };
 

@@ -7,6 +7,7 @@ import {
   deleteBookApi,
   fetchBookByTitle,
   getTopFiveApi,
+  getBestSellerApi,
 } from '@/lib/redux/slices/bookSlice/api';
 import { bookSlice } from '@/lib/redux';
 import Book from './book';
@@ -29,6 +30,20 @@ export const getTopFive = createAppAsyncThunk(
     if (response.status === 200) {
       //thunkApi.dispatch(bookSlice.actions.loadTopFiveBook(response.data.books));
       thunkApi.dispatch(bookSlice.actions.loadTopFiveBook(response.data.books));
+    }
+    return response;
+  },
+);
+
+export const getBestSeller = createAppAsyncThunk(
+  'book/getBestSeller',
+  async (t, thunkApi) => {
+    const response = await getBestSellerApi();
+    if (response.status === 200) {
+      //thunkApi.dispatch(bookSlice.actions.loadTopFiveBook(response.data.books));
+      thunkApi.dispatch(
+        bookSlice.actions.loadBestSellerBook(response.data.books),
+      );
     }
     return response;
   },
