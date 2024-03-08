@@ -3,6 +3,7 @@ import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
 import { reviewSlice } from '@/lib/redux';
 import {
   deleteReview,
+  getReviewStats,
   getReviews,
   saveReview,
   updateReview,
@@ -13,6 +14,15 @@ export const getAllReviewByBookAsync = createAppAsyncThunk(
   async (bookId: string, thunkApi) => {
     const reviews = await getReviews(bookId);
     thunkApi.dispatch(reviewSlice.actions.loadAllReviewByMovie(reviews));
+    return reviews;
+  },
+);
+
+export const getReviewStat = createAppAsyncThunk(
+  'review/getAllReviewByBookAsync',
+  async (bookId: string, thunkApi) => {
+    const reviews = await getReviewStats(bookId);
+    // thunkApi.dispatch(reviewSlice.actions.loadAllReviewByMovie(reviews));
     return reviews;
   },
 );

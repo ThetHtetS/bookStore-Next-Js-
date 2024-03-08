@@ -63,12 +63,15 @@ export default function BooksList(props: {
                 {` ${item.author}`}
               </div>
               <div>
-                {item.price}
+                <span
+                  className={`${item.discountPrice ? 'line-through' : ''} `}
+                >
+                  {item.price}
+                </span>
+                <span> {!!item.discountPrice && item.discountPrice}</span>
                 <span className="text-bold"> MMK</span>
               </div>
-              <div className="">
-                {item.stock === 0 ? 'No Stock' : 'In Stock'}
-              </div>
+              <div className="">{item.stock === 0 ? 'No Stock' : ''}</div>
               {/* <div className="flex justify-between">
                 {/* {cat.map(c=>(<div>{c.name}</div>))}   */}
               {/* {item.category.name} */}

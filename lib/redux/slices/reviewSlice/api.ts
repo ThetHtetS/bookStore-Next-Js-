@@ -7,6 +7,14 @@ export const getReviews = async (bookId: string) => {
   return reviews;
 };
 
+export const getReviewStats = async (bookId: string) => {
+  const result = await axios.get(
+    `${API_URL}/books/${bookId._id}/reviews/stats`,
+  );
+  const reviews = await result.data.review;
+  return reviews;
+};
+
 export const saveReview = async (review: any) => {
   const result = await axios.post(
     `${API_URL}/books/${review.book}/reviews`,
