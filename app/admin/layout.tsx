@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { Providers } from '@/lib/providers';
 import '../styles/globals.css';
 import Sidebar from '../components/admin/Sidebar';
 import Navbar from '../components/admin/Navbar';
+import { useState } from 'react';
 
 // export const metadata = {
 //   title: 'Next.js',
@@ -13,6 +13,7 @@ import Navbar from '../components/admin/Navbar';
 
 function RootLayout({ children }: { children: React.ReactNode }) {
   const [sideActive, setSideActive] = useState(true);
+
   const sideHandle = () => {
     setSideActive(!sideActive);
   };

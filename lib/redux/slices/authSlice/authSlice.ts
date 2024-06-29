@@ -1,17 +1,12 @@
-// import {CounterSliceState, incrementAsync} from "@/lib/redux";
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { loadAllUser } from './thunks';
 import User from './user';
 
 export interface AuthShape {
-  users: User[]
-
+  users: User[];
 }
 const initialState: AuthShape = {
-  users: [
-
-  ],
-
+  users: [],
 };
 export const authSlice = createSlice({
   name: 'user',
@@ -21,18 +16,11 @@ export const authSlice = createSlice({
     login: (state, action: PayloadAction<User>) => {
       state.users = action.payload;
     },
-    // logout: (state) => {
-    //     state.token  = undefined;
-    // },
-
   },
   extraReducers: (builder) => {
-    builder
-
-      .addCase(loadAllUser.fulfilled, (state, action) => {
-        console.log('Extra reducer fullfilled ', action.payload);
-        state.users = action.payload;
-      });
+    builder.addCase(loadAllUser.fulfilled, (state, action) => {
+      console.log('Extra reducer fullfilled ', action.payload);
+      state.users = action.payload;
+    });
   },
-
 });

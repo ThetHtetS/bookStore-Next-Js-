@@ -1,7 +1,6 @@
 import axios from '@/app/setting/our_axios';
 import { API_URL } from '@/app/setting/API';
 import Order from './order';
-// const axios = require('axios');
 
 export const fetchAllOrder = async (pagination) => {
   let result;
@@ -14,62 +13,49 @@ export const fetchAllOrder = async (pagination) => {
       `${API_URL}/orders?status=${pagination.status}&page=${pagination.page}&limit=${pagination.limit}`,
     );
   }
-
-  const data = await result.data.orders;
-  return data;
+  return result.data.orders;
 };
 
-export const addOrderApi = async (Order: Order) => {
-  const result = await axios.post(`${API_URL}/orders`, Order);
-  const data = result.data;
-  return data;
+export const addOrderApi = async (order: Order) => {
+  const result = await axios.post(`${API_URL}/orders`, order);
+  return result.data;
 };
 
-export const updateOrderApi = async (Order: Order) => {
-  const result = await axios.put(`${API_URL}/orders/${Order._id}`, Order);
-  const data = await result.data.order;
-
-  return data;
+export const updateOrderApi = async (order: Order) => {
+  const result = await axios.put(`${API_URL}/orders/${order._id}`, order);
+  return result.data.order;
 };
 
-export const deleteOrderApi = async (Order: Order) => {
-  const result = await axios.delete(`${API_URL}/orders/${Order._id}`);
+export const deleteOrderApi = async (order: Order) => {
+  const result = await axios.delete(`${API_URL}/orders/${order._id}`);
   const data = await result.data.order;
   return data;
 };
 
-export const getOrderByIdApi = async (Order: Order) => {
-  const result = await axios.get(`${API_URL}/orders/${Order._id}`);
+export const getOrderByIdApi = async (order: Order) => {
+  const result = await axios.get(`${API_URL}/orders/${order._id}`);
   const data = await result.data.order;
   return data;
 };
 
 export const getOrderByUserIdApi = async (id: any) => {
   const result = await axios.get(`${API_URL}/users/${id}/orders`);
-  const data = await result.data.orders;
-  return data;
+  return result.data.orders;
 };
 
-export const getOrderByDateRangeApi = async (date) => {
+export const getOrderByDateRangeApi = async (date: Object) => {
   const result = await axios.get(
     `${API_URL}/orders?createdAt[gte]=${date.start}&createdAt[lt]=${date.end}`,
   );
-  const data = await result.data.orders;
-  return data;
+  return result.data.orders;
 };
 
-// export const getOrderByStatusApi = async (Query) => {
-//   let result;
-//   if (Query.status === 'All') {
-//     result = await axios.get(
-//       `${API_URL}/orders?page=${Query.page}&limit=${Query.limit}`,
-//     );
-//   } else {
-//     result = await axios.get(
-//       `${API_URL}/orders?status=${Query.status}&page=${Query.page}&limit=${Query.limit}`,
-//     );
-//   }
+export const getMonthlyOrderApi = async (year) => {
+  const result = await axios.get(`${API_URL}/orders/monthly/${year}`);
+  return result;
+};
 
-//   const data = await result.data.data.orders;
-//   return data;
-// };
+export const getLastSevenDayApi = async () => {
+  const result = await axios.get(`${API_URL}/orders/daily-sale`);
+  return result;
+};

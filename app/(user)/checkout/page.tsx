@@ -1,32 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import {
-  cartSlice,
-  selectBooks,
-  selectCarts,
-  selectTopFive,
-  useDispatch,
-  useSelector,
-} from '@/lib/redux';
+import { selectCarts, sendNoti, useDispatch, useSelector } from '@/lib/redux';
 import { addNewOrder } from '@/lib/redux/slices/orderSlice/thunks';
 import Order from '@/lib/redux/slices/orderSlice/order';
+import { fetchCartByUser } from '@/lib/redux/slices/cartSlice/thunks';
 
 export default function Page() {
   const cart = useSelector(selectCarts);
-  const books = useSelector(selectTopFive);
+  const socket = useRef();
   const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   let subtotal = 0;
-
-  const orde = cart.map((item) => ({ book: item.book, qty: item.qty }));
+  let uid: String;
+  const orde = cart.map((item) => ({
+    book: item.book,
+    qty: item.qty,
+    price: item.price,
+  }));
+  useEffect(() => {
+    uid = localStorage.getItem('Uid');
+    dispatch(fetchCartByUser(uid));
+    socket.current = io('http://localhost:4000');
+    // socket.current.on('admin', (data) => console.log(data));
+  }, []);
 
   const createOrder = (data: Order) => {
     setLoading(true);
-    const uid = localStorage.getItem('Uid');
+
     const order = {
       ...data,
       uid,
@@ -36,16 +41,24 @@ export default function Page() {
       .unwrap()
       .then((res) => {
         setLoading(false);
-        if (res.status === 'success') {
-          router.push('/account');
-        }
+        //dispatch(cartSlice.actions.deleteAllCart());
+        // if (res.status === 'success') {
+        //   router.push('/account');
+        // }
+        const orderId = res.order._id;
+        uid = localStorage.getItem('Uid');
+        dispatch(sendNoti({ uid, orderId }));
+
+        socket.current.emit('new-order', {
+          data: { uid: { name: localStorage.getItem('username') }, orderId },
+          to: localStorage.getItem('Uid'),
+        });
       });
-    dispatch(cartSlice.actions.deleteAllCart());
   };
 
-  if (!cart.length) {
-    router.push('/');
-  }
+  // if (!cart.length) {
+  //   router.push('/');
+  // }
 
   return (
     <div className="md:flex gap-1 text-center">
@@ -127,23 +140,17 @@ export default function Page() {
           </div>
           <div className=" md:w-2/5  pt-20 px-20 ">
             {!!cart.length &&
-              !!books.length &&
-              cart.map(async (item) => {
-                const book = await books.filter((ele) => ele._id === item.book);
-                subtotal += book[0].price * item.qty;
-
-                return (
-                  <div className="flex justify-between w-full bg-white py-5 px-3  border-t">
-                    <div className=" flex gap-1">
-                      <div>{book[0].title}</div>
-                      <div className=" bg-slate-200 rounded-full px-2">
-                        {item.qty}
-                      </div>
+              cart.map((item) => (
+                <div className="flex justify-between w-full bg-white py-5 px-3  border-t">
+                  <div className=" flex gap-1">
+                    <div>{item.book.title}</div>
+                    <div className=" bg-slate-200 rounded-full px-2">
+                      {item.qty}
                     </div>
-                    <div className=" ">{item.qty * book[0].price}</div>
                   </div>
-                );
-              })}
+                  <div className=" ">{item.qty * item.book.price}</div>
+                </div>
+              ))}
 
             <div className="flex justify-between w-full bg-white pt-3 px-3 border-t">
               <div className="">Subtotal:</div>

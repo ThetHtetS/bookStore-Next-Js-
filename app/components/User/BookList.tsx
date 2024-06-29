@@ -12,7 +12,6 @@ export default function BooksList(props: {
 }) {
   const container = useRef();
   const { books, addToCart } = props;
-  let id = 0;
   const slideLeft = () => {
     container.current.scrollLeft -= 300;
   };
@@ -72,21 +71,13 @@ export default function BooksList(props: {
                 <span className="text-bold"> MMK</span>
               </div>
               <div className="">{item.stock === 0 ? 'No Stock' : ''}</div>
-              {/* <div className="flex justify-between">
-                {/* {cat.map(c=>(<div>{c.name}</div>))}   */}
-              {/* {item.category.name} */}
-              {/* </div> */}
             </Link>
-
             <button
               type="button"
               onClick={() => {
                 addToCart({
-                  _id: id++,
                   book: item._id,
-                  title: item.title,
                   qty: 1,
-                  price: item.price,
                 });
               }}
               className="border bg-yellow-200 mt-2 rounded px-1 py-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"

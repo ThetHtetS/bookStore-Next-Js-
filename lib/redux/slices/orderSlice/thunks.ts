@@ -3,9 +3,10 @@ import {
   addOrderApi,
   deleteOrderApi,
   fetchAllOrder,
+  getLastSevenDayApi,
+  getMonthlyOrderApi,
   getOrderByDateRangeApi,
   getOrderByIdApi,
-  getOrderByStatusApi,
   getOrderByUserIdApi,
   updateOrderApi,
 } from '@/lib/redux/slices/orderSlice/api';
@@ -22,16 +23,16 @@ export const loadAllOrder = createAppAsyncThunk(
 
 export const addNewOrder = createAppAsyncThunk(
   'order/addNewOrder',
-  async (Order: Order) => {
-    const newOrder = await addOrderApi(Order);
+  async (order: Order) => {
+    const newOrder = await addOrderApi(order);
     return newOrder;
   },
 );
 
 export const updateOrder = createAppAsyncThunk(
   'order/updateOrder',
-  async (Order: Order, thunkApi) => {
-    const newOrder = await updateOrderApi(Order);
+  async (order: Order, thunkApi) => {
+    const newOrder = await updateOrderApi(order);
     //  thunkApi.dispatch(orderSlice.actions.updateOrder(newOrder));
     return newOrder;
   },
@@ -39,24 +40,21 @@ export const updateOrder = createAppAsyncThunk(
 
 export const deleteOrder = createAppAsyncThunk(
   'order/deleteOrder',
-  async (Order: Order, thunkApi) => {
-    const deleteOrder = await deleteOrderApi(Order);
-
-    thunkApi.dispatch(orderSlice.actions.deleteOrder(deleteOrder));
+  async (order: Order, thunkApi) => {
+    const deletedOrder = await deleteOrderApi(order);
+    thunkApi.dispatch(orderSlice.actions.deleteOrder(deletedOrder));
     // return thunkApi.rejectWithValue(deleteOrder);
-    return deleteOrder;
+    return deletedOrder;
   },
 );
 
 export const getOrderById = createAppAsyncThunk(
   'order/getOrderById',
-  async (Order: Order, thunkApi) => {
-    const order = await getOrderByIdApi(Order);
-    // console.log('Thunk Api ',thunkApi);
-    // console.log('Thunk response delete Order',order);
+  async (order: Order, thunkApi) => {
+    const orders = await getOrderByIdApi(order);
     // thunkApi.dispatch(orderSlice.actions.addOrderById(order));
     // return thunkApi.rejectWithValue(deleteOrder);
-    return order;
+    return orders;
   },
 );
 
@@ -76,10 +74,18 @@ export const getOrderByDateRange = createAppAsyncThunk(
   },
 );
 
-// export const getOrderByStatus = createAppAsyncThunk(
-//   'order/getOrderByStatus',
-//   async (status) => {
-//     const order = await getOrderByStatusApi(status);
-//     return order;
-//   },
-// );
+export const getMonthlyOrder = createAppAsyncThunk(
+  'order/getOrderMonthly',
+  async (year, thunkApi) => {
+    const result = await getMonthlyOrderApi(year);
+    return result.data.monthlyOrder;
+  },
+);
+
+export const getDailySales = createAppAsyncThunk(
+  'order/dailySales',
+  async (year, thunkApi) => {
+    const result = await getLastSevenDayApi();
+    return result.data.monthlyOrder;
+  },
+);

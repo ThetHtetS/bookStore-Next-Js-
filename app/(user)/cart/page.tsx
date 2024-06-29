@@ -1,14 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import IsAuth from '@/app/components/auth/isAuth';
 import { cartSlice, selectCarts, useDispatch, useSelector } from '@/lib/redux';
+import { fetchCartByUser } from '@/lib/redux/slices/cartSlice/thunks';
 
 function Cart() {
   const cart = useSelector(selectCarts);
-
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCartByUser(localStorage.getItem('Uid')));
+  }, []);
   let subtotal = 0;
 
   const increaseQty = (data: any) => {
@@ -64,13 +67,13 @@ function Cart() {
           {cart.map((item) => {
             // const book = books.filter((el) => el._id === item.book);
 
-            subtotal += item.price * 1 * item.qty;
+            subtotal += item.book.price * 1 * item.qty;
 
             return (
               <tbody className="">
                 <tr className="">
                   <td className="border-b pb-5">
-                    {item.title}
+                    {item.book.title}
                     <div className="pt-1">
                       <button
                         type="button"
@@ -81,7 +84,7 @@ function Cart() {
                       </button>
                     </div>
                   </td>
-                  <td className="border-b pb-5">{item.price}</td>
+                  <td className="border-b pb-5">{item.book.price}</td>
                   <td className="border-b pb-5">
                     <div className="-ml-2 flex items-center gap-1">
                       <button
@@ -92,8 +95,8 @@ function Cart() {
                             _id: item._id,
                             book: item.book,
                             qty: item.qty,
-                            title: item.title,
-                            price: item.price,
+                            title: item.book.title,
+                            price: item.book.price,
                           })
                         }
                       >
@@ -116,15 +119,15 @@ function Cart() {
                       <button
                         type="button"
                         aria-label="increase"
-                        onClick={() =>
-                          increaseQty({
-                            _id: item._id,
-                            book: item.book,
-                            qty: item.qty,
-                            title: item.title,
-                            price: item.price,
-                          })
-                        }
+                        // onClick={() =>
+                        //   increaseQty({
+                        //     _id: item._id,
+                        //     book: item.book,
+                        //     qty: item.qty,
+                        //     title: item.title,
+                        //     price: item.price,
+                        //   })
+                        // }
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +146,9 @@ function Cart() {
                       </button>
                     </div>
                   </td>
-                  <td className="border-b pb-5">{item.qty * item.price}</td>
+                  <td className="border-b pb-5">
+                    {item.qty * item.book.price}
+                  </td>
                 </tr>
               </tbody>
             );

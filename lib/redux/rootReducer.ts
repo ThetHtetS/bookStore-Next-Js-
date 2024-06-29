@@ -1,5 +1,11 @@
 /* Instruments */
-import { authSlice, counterSlice, reviewSlice, categorySlice } from './slices';
+import {
+  authSlice,
+  counterSlice,
+  reviewSlice,
+  categorySlice,
+  notiSlice,
+} from './slices';
 
 import { bookSlice } from './slices/bookSlice/bookSlice';
 import { cartSlice } from './slices/cartSlice/cartSlice';
@@ -15,4 +21,5 @@ export const reducer = {
   //order_item: order_itemSlice.reducer,
   user: authSlice.reducer,
   review: reviewSlice.reducer,
+  noti: notiSlice.reducer,
 };

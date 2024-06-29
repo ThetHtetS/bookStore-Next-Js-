@@ -9,7 +9,6 @@ import {
   forgetPasswordApi,
   resetPasswordApi,
 } from '@/lib/redux/slices/authSlice/api';
-//import exp from 'constants';
 
 export const loginAsync = createAppAsyncThunk(
   'auth/login',

@@ -1,8 +1,37 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
+import {
+  fetchNoti,
+  notiSlice,
+  selectNoti,
+  useDispatch,
+  useSelector,
+} from '@/lib/redux';
+import Noti from '@/lib/redux/slices/notiSlice/notification';
+import Link from 'next/link';
 
 export default function Navbar({ sideHandle }) {
+  const [hide, setHide] = useState(true);
+  const notification: Noti[] = useSelector(selectNoti);
+  const dispatch = useDispatch();
+  const socket = useRef();
+  useEffect(() => {
+    socket.current = io('http://localhost:4000');
+    const userId = localStorage.getItem('Uid');
+    socket.current.emit('add-user', userId);
+  }, []);
+  useEffect(() => {
+    dispatch(fetchNoti());
+  }, []);
+  useEffect(() => {
+    socket.current.on('order', (data) => {
+      dispatch(notiSlice.actions.addNoti(data));
+    });
+  }, []);
   return (
-    <nav className="h-10 w-full bg-zinc-500 px-3 shadow">
+    <nav className="h-10 w-full bg-zinc-500 px-3 shadow relative">
       <div className="flex justify-between items-center pt-1">
         <div>
           {/* menu button */}
@@ -56,24 +85,36 @@ export default function Navbar({ sideHandle }) {
           </div>
         </div> */}
         {/* search input end */}
-        <div className="flex items-center gap-3">
-          <button type="button">
-            {/* noti icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
+        <div className="flex items-center gap-3 ">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => {
+                setHide(!hide);
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"
-              />
-            </svg>
-          </button>
+              {/* noti icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"
+                />
+              </svg>
+            </button>
+            <span className="absolute top-1 left-4 bg-white rounded-lg px-1">
+              {' '}
+              {notification.length ? notification.length : ''}
+            </span>
+          </div>
+
           <button type="button" className="pb-1">
             {/* user icon */}
             <svg
@@ -91,6 +132,20 @@ export default function Navbar({ sideHandle }) {
               />
             </svg>
           </button>
+        </div>
+      </div>
+      <div
+        className={`w-[250px] h-[400px] border bg-slate-300 shadow right-10 rounded-lg absolute ${hide ? 'hidden' : ''}`}
+      >
+        <div className="border-b shadow p-3 text-center"> Notifications</div>
+        <div>
+          {notification.map((item) => (
+            <div className="text-center bg-white shadow border py-3">
+              <Link
+                href={`/admin/orders/${item.orderId}`}
+              >{`New Order from ${item.uid.name}`}</Link>
+            </div>
+          ))}
         </div>
       </div>
     </nav>

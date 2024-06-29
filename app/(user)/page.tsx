@@ -5,7 +5,6 @@ import {
   cartSlice,
   selectBestSeller,
   selectBooks,
-  selectCarts,
   selectTopFive,
   useDispatch,
   useSelector,
@@ -17,10 +16,10 @@ import {
   getTopFive,
   loadAllBook,
 } from '@/lib/redux/slices/bookSlice/thunks';
+import { NewCart } from '@/lib/redux/slices/cartSlice/thunks';
 
 function Indexpage() {
   const dispatch = useDispatch();
-  //let cart = useSelector(selectCarts);
   let [loading, setLoading] = useState(true);
   let [pagin, setPagin] = useState({
     page: 1,
@@ -41,10 +40,11 @@ function Indexpage() {
   }, [pagin]);
 
   const addToCart = (items: any) => {
-    //let data = cart.filter((item) => item.book === items.book);
-    //console.log(data);
+    const uid = localStorage.getItem('Uid');
+    let cart = { ...items, uid };
+    console.log(cart);
 
-    dispatch(cartSlice.actions.addCart(items));
+    dispatch(NewCart(cart));
   };
 
   const next = () => {

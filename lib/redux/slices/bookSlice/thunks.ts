@@ -51,9 +51,9 @@ export const getBestSeller = createAppAsyncThunk(
 
 export const getBook = createAppAsyncThunk(
   'book/getBookById',
-  async (Book: object) => {
-    const book = await getBookApi(Book);
-    return book;
+  async (book: object) => {
+    const books = await getBookApi(book);
+    return books;
   },
 );
 

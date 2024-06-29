@@ -3,9 +3,9 @@ import Order from './order';
 import {
   addNewOrder,
   deleteOrder,
+  getMonthlyOrder,
   getOrderByDateRange,
   getOrderById,
-  getOrderByStatus,
   getOrderByUserId,
   loadAllOrder,
   updateOrder,
@@ -13,18 +13,12 @@ import {
 
 export interface OrderSliceState {
   orders: Order[];
+  monthlyOrder: [];
 }
 
 const initialState: OrderSliceState = {
-  orders: [
-    // {
-    //     _id:1,
-    //     phone: "09695080740",
-    //     name: "Ko Thet Htet Soe  ",
-    //     address: "123/hello",
-    //     orderItem:  [{book: 2, qty: 10},{book:1,qty:3}]
-    // },
-  ],
+  orders: [],
+  monthlyOrder: [],
 };
 
 export const orderSlice = createSlice({
@@ -61,7 +55,7 @@ export const orderSlice = createSlice({
       })
       .addCase(addNewOrder.fulfilled, (state, action) => {
         console.log('Extra addToDo reducer fullfilled ', action.payload);
-        state.orders.push(action.payload.data.order);
+        state.orders.push(action.payload.order);
       })
       .addCase(getOrderById.fulfilled, (state, action) => {
         console.log('Extra addToDo reducer fullfilled ', action.payload);
@@ -75,10 +69,10 @@ export const orderSlice = createSlice({
         console.log('Extra addToDo reducer fullfilled ', action.payload);
         state.orders = action.payload;
       })
-      // .addCase(getOrderByStatus.fulfilled, (state, action) => {
-      //   console.log('Extra reducer fullfilled ', action.payload);
-      //   state.orders = action.payload;
-      // })
+      .addCase(getMonthlyOrder.fulfilled, (state, action) => {
+        console.log('Extra reducer fullfilled ', action.payload);
+        state.monthlyOrder = action.payload;
+      })
       .addCase(updateOrder.fulfilled, (state, action) => {
         console.log('Extra update order reducer fullfilled ', action.payload);
         state.orders = action.payload;

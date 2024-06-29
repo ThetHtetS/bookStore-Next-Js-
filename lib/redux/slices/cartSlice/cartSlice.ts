@@ -6,29 +6,32 @@ export interface CartSliceState {
 }
 
 const initialState: CartSliceState = {
-  carts: [
-
-  ],
+  carts: [],
 };
 
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
-  reducers:
-     {
-       addCart: (state, action:PayloadAction<Cart>) => {
-         state.carts.push(action.payload);
-       },
-       deleteCart: (state, action:PayloadAction<Cart>) => {
-         state.carts = state.carts.filter((item) => item._id != action.payload._id);
-       },
-       updateCart: (state, action:PayloadAction<Cart>) => {
-         state.carts = state.carts.map((item) => (item._id == action.payload._id ? action.payload : item));
-       },
-       deleteAllCart: (state) => {
-         state.carts = [];
-       },
-     },
-
+  reducers: {
+    fetchCart: (state, action: PayloadAction<Cart>) => {
+      state.carts = action.payload;
+    },
+    addCart: (state, action: PayloadAction<Cart>) => {
+      state.carts.push(action.payload);
+    },
+    deleteCart: (state, action: PayloadAction<Cart>) => {
+      state.carts = state.carts.filter(
+        (item) => item._id != action.payload._id,
+      );
+    },
+    updateCart: (state, action: PayloadAction<Cart>) => {
+      state.carts = state.carts.map((item) =>
+        item._id == action.payload._id ? action.payload : item,
+      );
+    },
+    deleteAllCart: (state) => {
+      state.carts = [];
+    },
+  },
 });

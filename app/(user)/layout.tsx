@@ -1,15 +1,15 @@
 /* Components */
 import { Providers } from '@/lib/providers';
 // import { Nav } from './components/Nav'
-import { Footer } from 'flowbite-react';
+//import { Footer } from 'flowbite-react';
 import Link from 'next/link';
-import {
-  BsFacebook,
-  BsInstagram,
-  BsTwitter,
-  BsGithub,
-  BsDribbble,
-} from 'react-icons/bs';
+// import {
+//   BsFacebook,
+//   BsInstagram,
+//   BsTwitter,
+//   BsGithub,
+//   BsDribbble,
+// } from 'react-icons/bs';
 /* Instruments */
 //import styles from './styles/layout.module.css';
 import '../styles/globals.css';
@@ -68,7 +68,7 @@ export default function RootLayout(props: React.PropsWithChildren) {
                 React Redux
               </a>
             </footer> */}
-            <Footer container className="border border-t-8 border-teal-500">
+            {/* <Footer container className="border border-t-8 border-teal-500">
               <div className="w-full max-w-7xl mx-auto">
                 <div className="grid w-full justify-between sm:flex md:grid-cols-1">
                   <div className="mt-5">
@@ -145,7 +145,7 @@ export default function RootLayout(props: React.PropsWithChildren) {
                   </div>
                 </div>
               </div>
-            </Footer>
+            </Footer> */}
           </section>
         </body>
       </html>
